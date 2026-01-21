@@ -97,24 +97,16 @@ Created by the LNURL provider after payment:
 
 ## Flow
 
-```
-┌────────────┐                    ┌────────────┐                    ┌────────────┐
-│   Sender   │                    │   LNURL    │                    │   Relay    │
-│   Client   │                    │  Provider  │                    │            │
-└─────┬──────┘                    └─────┬──────┘                    └─────┬──────┘
-      │                                 │                                 │
-      │ 1. Create zap request (9734)    │                                 │
-      │────────────────────────────────►│                                 │
-      │                                 │                                 │
-      │ 2. Return Lightning invoice     │                                 │
-      │◄────────────────────────────────│                                 │
-      │                                 │                                 │
-      │ 3. Pay invoice                  │                                 │
-      │════════════════════════════════►│                                 │
-      │                                 │                                 │
-      │                                 │ 4. Publish zap receipt (9735)   │
-      │                                 │────────────────────────────────►│
-      │                                 │                                 │
+```mermaid
+sequenceDiagram
+    participant Sender as Sender Client
+    participant LNURL as LNURL Provider
+    participant Relay
+
+    Sender->>LNURL: 1. Create zap request (9734)
+    LNURL-->>Sender: 2. Return Lightning invoice
+    Sender->>LNURL: 3. Pay invoice
+    LNURL->>Relay: 4. Publish zap receipt (9735)
 ```
 
 ## LNURL Integration

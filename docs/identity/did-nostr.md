@@ -16,12 +16,11 @@ DID:Nostr provides:
 - **Verifiable credentials** support
 - **Portable identity** across systems
 
-```
-did:nostr:<64-char-hex-pubkey>
-     │         │
-     │         └── Your Nostr public key (hex format)
-     │
-     └── DID method name
+```mermaid
+flowchart LR
+    DID["did:nostr:&lt;pubkey&gt;"]
+    DID --> Method["did:nostr<br/>(DID method name)"]
+    DID --> Pubkey["64-char hex pubkey<br/>(Your Nostr public key)"]
 ```
 
 ## DID Format

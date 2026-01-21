@@ -16,18 +16,12 @@ Zap Goals are:
 - **Transparent progress** anyone can verify
 - **Trustless** - funds go directly to creator
 
-```
-┌─────────────────────────────────────────────┐
-│            🎯 Zap Goal                       │
-│                                             │
-│  New Podcast Equipment                      │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 75%       │
-│  750,000 / 1,000,000 sats                   │
-│                                             │
-│  23 supporters                              │
-│                                 [⚡ Zap]     │
-└─────────────────────────────────────────────┘
-```
+| Zap Goal Element | Value |
+|------------------|-------|
+| **Title** | New Podcast Equipment |
+| **Progress** | 75% (750,000 / 1,000,000 sats) |
+| **Supporters** | 23 |
+| **Action** | Zap button |
 
 ## Creating a Zap Goal
 

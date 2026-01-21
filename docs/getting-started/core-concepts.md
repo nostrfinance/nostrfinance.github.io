@@ -52,10 +52,9 @@ Everything on Nostr is an **event** - a signed JSON object:
 |------|------|---------|
 | 9734 | Zap Request | Request a Lightning payment |
 | 9735 | Zap Receipt | Proof of Lightning payment |
-| 7375 | Wallet Token | Cashu wallet proofs |
-| 7376 | Wallet History | Cashu spending history |
-| 9321 | NutZap | eCash payment |
 | 9041 | Zap Goal | Crowdfunding target |
+| 23194 | NWC Request | Wallet connection request |
+| 23195 | NWC Response | Wallet connection response |
 | 30078 | App Data | Application-specific data |
 
 ## NIPs (Nostr Implementation Possibilities)
@@ -66,8 +65,6 @@ NIPs define how Nostr works. Finance-related NIPs include:
 
 - **NIP-47**: Nostr Wallet Connect
 - **NIP-57**: Lightning Zaps
-- **NIP-60**: Cashu Wallets
-- **NIP-61**: NutZaps
 - **NIP-75**: Zap Goals
 
 ### How NIPs Work
@@ -82,15 +79,11 @@ NIPs ensure interoperability between different clients and services.
 
 Relays are servers that store and forward Nostr events:
 
-```
-┌────────┐       ┌────────┐       ┌────────┐
-│ Client │◄─────►│ Relay  │◄─────►│ Client │
-└────────┘       └────────┘       └────────┘
-                      │
-                      ▼
-                 ┌────────┐
-                 │ Relay  │
-                 └────────┘
+```mermaid
+flowchart LR
+    C1["Client"] <--> R1["Relay"]
+    R1 <--> C2["Client"]
+    R1 <--> R2["Relay"]
 ```
 
 ### Relay Economics
@@ -119,14 +112,11 @@ Common zap amounts:
 
 Layer 2 scaling solution for Bitcoin:
 
-```
-Bitcoin (Layer 1)
-     │
-     ▼
-Lightning Network (Layer 2)
-- Instant payments
-- Near-zero fees
-- Micropayments possible
+```mermaid
+flowchart TB
+    BTC["Bitcoin (Layer 1)"]
+    LN["Lightning Network (Layer 2)<br/>• Instant payments<br/>• Near-zero fees<br/>• Micropayments possible"]
+    BTC --> LN
 ```
 
 ### Key Lightning Concepts
@@ -139,10 +129,9 @@ Lightning Network (Layer 2)
 
 Protocol for connecting wallets to apps via Nostr:
 
-```
-┌─────────┐    Encrypted     ┌─────────┐
-│   App   │◄──over Nostr────►│ Wallet  │
-└─────────┘     Relays       └─────────┘
+```mermaid
+flowchart LR
+    App <-->|"Encrypted<br/>over Nostr Relays"| Wallet
 ```
 
 ### NWC Connection String
@@ -162,26 +151,21 @@ nostr+walletconnect://[wallet-pubkey]?
 | `get_balance` | Check wallet balance |
 | `get_info` | Get wallet info |
 
-## Cashu eCash
+## Taproot Native
 
-Chaumian eCash on Bitcoin:
+Nostr is **Taproot native** - both use secp256k1 cryptography:
 
-```
-Deposit BTC → Mint creates tokens → Private transfers → Redeem for BTC
+```mermaid
+flowchart LR
+    Key["secp256k1<br/>Key Pair"] --> Nostr["npub1...<br/>(Nostr ID)"]
+    Key --> BTC["bc1p...<br/>(Bitcoin P2TR)"]
 ```
 
 ### Key Properties
 
-- **Blinded signatures**: Mint can't track spending
-- **Bearer tokens**: Whoever holds them owns them
-- **Lightning interop**: Deposit/withdraw via Lightning
-
-### NutZaps
-
-Cashu tokens sent via Nostr:
-- P2PK locked (only recipient can spend)
-- Published as events (kind 9321)
-- Private alternative to Lightning zaps
+- **Same cryptography**: secp256k1 with x-only public keys
+- **Unified identity**: Your npub IS a Bitcoin address
+- **No bridges**: Direct key usage, no wrapping
 
 ## Value for Value (V4V)
 
@@ -223,7 +207,7 @@ did:nostr:pubkey → Verifiable identity
 | Sats | Bitcoin units | Payment denomination |
 | Lightning | L2 payments | Fast, cheap transactions |
 | NWC | Wallet protocol | App-wallet connection |
-| Cashu | eCash system | Private payments |
+| Taproot | Bitcoin P2TR | Native on-chain payments |
 | V4V | Economic model | Monetization without ads |
 
 ---

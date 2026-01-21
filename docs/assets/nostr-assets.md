@@ -16,14 +16,12 @@ Nostr Assets Protocol:
 - Enables social asset discovery
 - Supports Lightning transfers
 
-```
-Your Nostr Identity (npub)
-         │
-         ├── Content Events (posts, etc.)
-         │
-         └── Asset Events (tokens, transfers)
-              │
-              └── Secured by Bitcoin/Lightning
+```mermaid
+flowchart TB
+    npub["Your Nostr Identity (npub)"]
+    npub --> content["Content Events (posts, etc.)"]
+    npub --> assets["Asset Events (tokens, transfers)"]
+    assets --> btc["Secured by Bitcoin/Lightning"]
 ```
 
 ## Key Features
@@ -56,24 +54,27 @@ Since Nostr is off-chain:
 
 ## Architecture
 
-```
-┌─────────────────────────────────────┐
-│         Nostr Clients               │
-│    (Asset-aware applications)       │
-├─────────────────────────────────────┤
-│     Nostr Assets Protocol           │
-│  ┌─────────────────────────────┐   │
-│  │ Transfer Events             │   │
-│  │ Asset Discovery             │   │
-│  │ Trading Interface           │   │
-│  └─────────────────────────────┘   │
-├─────────────────────────────────────┤
-│        Taproot Assets               │
-│   (Asset issuance & validation)     │
-├─────────────────────────────────────┤
-│       Lightning Network             │
-│      (Settlement & liquidity)       │
-└─────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph clients["Nostr Clients<br/>(Asset-aware applications)"]
+        ui["User Interface"]
+    end
+
+    subgraph protocol["Nostr Assets Protocol"]
+        transfer["Transfer Events"]
+        discovery["Asset Discovery"]
+        trading["Trading Interface"]
+    end
+
+    subgraph taproot["Taproot Assets<br/>(Asset issuance & validation)"]
+        ta["Asset Layer"]
+    end
+
+    subgraph lightning["Lightning Network<br/>(Settlement & liquidity)"]
+        ln["Payment Layer"]
+    end
+
+    clients --> protocol --> taproot --> lightning
 ```
 
 ## How It Works

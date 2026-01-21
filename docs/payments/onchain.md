@@ -24,16 +24,14 @@ While Lightning enables instant micropayments, on-chain Bitcoin transactions rem
 
 Nostr keys and Bitcoin Taproot keys are **cryptographically identical**:
 
-```
-Your Nostr Identity
-      npub1abc...
-          │
-    secp256k1 pubkey
-          │
-    x-only format
-          │
-      bc1pabc...
-Your Bitcoin Address
+```mermaid
+flowchart TB
+    npub["Your Nostr Identity<br/><code>npub1abc...</code>"]
+    secp["secp256k1 pubkey"]
+    xonly["x-only format<br/>(32 bytes)"]
+    btc["Your Bitcoin Address<br/><code>bc1pabc...</code>"]
+
+    npub --> secp --> xonly --> btc
 ```
 
 This means:
@@ -146,12 +144,20 @@ Share Partially Signed Bitcoin Transactions:
 
 ### Multi-Signature Workflow
 
-```
-1. Coordinator creates PSBT
-2. Posts encrypted to cosigners via kind 9001
-3. Each cosigner adds signature
-4. Returns signed PSBT
-5. Coordinator combines and broadcasts
+```mermaid
+sequenceDiagram
+    participant C as Coordinator
+    participant S1 as Cosigner 1
+    participant S2 as Cosigner 2
+    participant BTC as Bitcoin Network
+
+    C->>C: 1. Create PSBT
+    C->>S1: 2. Post encrypted (kind 9001)
+    C->>S2: 2. Post encrypted (kind 9001)
+    S1->>C: 3. Return signed PSBT
+    S2->>C: 3. Return signed PSBT
+    C->>C: 4. Combine signatures
+    C->>BTC: 5. Broadcast transaction
 ```
 
 ## Privacy Considerations
@@ -186,17 +192,19 @@ Nostr could enable decentralized coinjoin:
 
 Using 2-of-3 multisig:
 
-```
-Participants:
-- Buyer (Nostr pubkey → P2TR)
-- Seller (Nostr pubkey → P2TR)
-- Arbiter (Nostr pubkey → P2TR)
+```mermaid
+flowchart TB
+    subgraph participants["Participants (2-of-3 Multisig)"]
+        Buyer["Buyer<br/>(npub → P2TR)"]
+        Seller["Seller<br/>(npub → P2TR)"]
+        Arbiter["Arbiter<br/>(npub → P2TR)"]
+    end
 
-Flow:
-1. Buyer funds escrow address
-2. Seller delivers goods/services
-3. Buyer + Seller sign release
-   OR Arbiter resolves dispute
+    Buyer -->|1. Fund escrow| Escrow["Escrow Address<br/>(bc1p...)"]
+    Seller -->|2. Deliver goods| Buyer
+
+    Escrow -->|"3a. Buyer + Seller<br/>sign release"| Release["Funds Released"]
+    Escrow -->|"3b. Arbiter<br/>resolves dispute"| Release
 ```
 
 ### Escrow Contract Example

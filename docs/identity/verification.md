@@ -91,23 +91,17 @@ W3C-standard credentials:
 
 For regulated services:
 
-```
-User                   KYC Provider              Service
-  │                         │                        │
-  │  1. Request verification│                        │
-  │────────────────────────►│                        │
-  │                         │                        │
-  │  2. Complete KYC        │                        │
-  │◄───────────────────────►│                        │
-  │                         │                        │
-  │  3. Receive credential  │                        │
-  │◄────────────────────────│                        │
-  │                         │                        │
-  │  4. Present credential  │                        │
-  │─────────────────────────┼───────────────────────►│
-  │                         │                        │
-  │  5. Verify & grant access                        │
-  │◄────────────────────────┼────────────────────────│
+```mermaid
+sequenceDiagram
+    participant User
+    participant KYC as KYC Provider
+    participant Service
+
+    User->>KYC: 1. Request verification
+    User->>KYC: 2. Complete KYC
+    KYC-->>User: 3. Receive credential
+    User->>Service: 4. Present credential
+    Service-->>User: 5. Verify & grant access
 ```
 
 ### Proof of Reserves
@@ -205,14 +199,12 @@ async function verifyCredential(credential) {
 
 ### Progressive Disclosure
 
-```
-Start: Anonymous (pubkey only)
-  │
-  ├─► Add NIP-05 → More trust
-  │
-  ├─► Social verification → More trust
-  │
-  └─► KYC credential → Maximum trust
+```mermaid
+flowchart TB
+    start["Anonymous (pubkey only)"]
+    start --> nip05["Add NIP-05 → More trust"]
+    start --> social["Social verification → More trust"]
+    start --> kyc["KYC credential → Maximum trust"]
 ```
 
 ## Privacy Considerations

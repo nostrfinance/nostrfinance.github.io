@@ -41,23 +41,26 @@ Two main NIPs define marketplace functionality:
 
 ### Architecture
 
-```
-┌─────────────────────────────────────────────────┐
-│              Marketplace Client                  │
-│         (Shopstr, LNbits Market, etc.)          │
-├─────────────────────────────────────────────────┤
-│    NIP-15 Products    │    NIP-99 Listings      │
-│    ┌─────────────┐    │    ┌─────────────┐     │
-│    │ Stall       │    │    │ Classified  │     │
-│    │ Products    │    │    │ Listing     │     │
-│    │ Orders      │    │    └─────────────┘     │
-│    └─────────────┘    │                        │
-├─────────────────────────────────────────────────┤
-│              Nostr Relays                       │
-├─────────────────────────────────────────────────┤
-│              Lightning Network                   │
-│            (Payment Settlement)                  │
-└─────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph client["Marketplace Client<br/>(Shopstr, LNbits Market, etc.)"]
+        subgraph nip15["NIP-15 Products"]
+            stall["Stall<br/>Products<br/>Orders"]
+        end
+        subgraph nip99["NIP-99 Listings"]
+            classified["Classified<br/>Listing"]
+        end
+    end
+
+    subgraph relays["Nostr Relays"]
+        relay["Message Routing"]
+    end
+
+    subgraph lightning["Lightning Network<br/>(Payment Settlement)"]
+        ln["Instant Payments"]
+    end
+
+    client --> relays --> lightning
 ```
 
 ## Key Concepts

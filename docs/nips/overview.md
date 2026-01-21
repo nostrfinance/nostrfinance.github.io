@@ -71,41 +71,55 @@ Draft → Discussion → Implementation → Adoption
 
 ### How NIPs Interact
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                     Application                         │
-│                   (Nostr Client)                        │
-├────────────────────────────────────────────────────────┤
-│           NIP-57 Zaps    │      NIP-75 Goals           │
-├────────────────────────────────────────────────────────┤
-│                      NIP-47                             │
-│                Nostr Wallet Connect                     │
-├────────────────────────────────────────────────────────┤
-│                      NIP-01                             │
-│                   Base Protocol                         │
-├────────────────────────────────────────────────────────┤
-│                  Lightning Network                      │
-│                    + Taproot                            │
-└────────────────────────────────────────────────────────┘
+```mermaid
+block-beta
+    columns 1
+    block:app["Application (Nostr Client)"]
+        columns 2
+        A["NIP-57 Zaps"] B["NIP-75 Goals"]
+    end
+    block:wallet["NIP-47 Nostr Wallet Connect"]
+        columns 1
+        C["Wallet ↔ App Communication"]
+    end
+    block:base["NIP-01 Base Protocol"]
+        columns 1
+        D["Events, Signatures, Relays"]
+    end
+    block:btc["Bitcoin Layer"]
+        columns 2
+        E["Lightning Network"] F["Taproot (P2TR)"]
+    end
+
+    app --> wallet
+    wallet --> base
+    base --> btc
 ```
 
 ### Tag Dependencies
 
-```
-Zap Request (9734)
-├── ["p", recipient_pubkey]
-├── ["e", event_id]
-├── ["amount", millisats]
-├── ["relays", ...]
-└── ["lnurl", ...]
+```mermaid
+flowchart LR
+    subgraph req["Zap Request (9734)"]
+        direction TB
+        p1["p: recipient_pubkey"]
+        e1["e: event_id"]
+        amt["amount: millisats"]
+        rel["relays: ..."]
+        lnurl["lnurl: ..."]
+    end
 
-Zap Receipt (9735)
-├── ["p", recipient]
-├── ["P", sender]
-├── ["e", zapped_event]
-├── ["bolt11", invoice]
-├── ["description", zap_request]
-└── ["preimage", ...]
+    subgraph rec["Zap Receipt (9735)"]
+        direction TB
+        p2["p: recipient"]
+        P["P: sender"]
+        e2["e: zapped_event"]
+        bolt["bolt11: invoice"]
+        desc["description: zap_request"]
+        pre["preimage: ..."]
+    end
+
+    req -->|"payment"| rec
 ```
 
 ## Taproot Native

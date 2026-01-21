@@ -11,6 +11,11 @@ const config: Config = {
     v4: true,
   },
 
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
+
   url: 'https://nostrfinance.com',
   baseUrl: '/',
 
@@ -222,6 +227,16 @@ const config: Config = {
     tableOfContents: {
       minHeadingLevel: 2,
       maxHeadingLevel: 4,
+    },
+
+    mermaid: {
+      theme: {light: 'neutral', dark: 'dark'},
+      options: {
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        flowchart: {
+          curve: 'basis',
+        },
+      },
     },
   } satisfies Preset.ThemeConfig,
 };

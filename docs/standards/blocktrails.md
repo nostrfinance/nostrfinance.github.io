@@ -16,8 +16,9 @@ Blocktrails provides:
 - **Nostr integration** - Use secp256k1 keys
 - **Minimal footprint** - One P2TR output per update
 
-```
-State → Hash → Key Tweak → Bitcoin Output
+```mermaid
+flowchart LR
+    State --> Hash --> Tweak["Key Tweak"] --> Output["Bitcoin Output"]
 ```
 
 ## How It Works
@@ -36,17 +37,27 @@ Each state update creates a new key by tweaking:
 
 ### Visual Flow
 
-```
-State₀         State₁         State₂
-  │              │              │
-  ▼              ▼              ▼
-Hash₀          Hash₁          Hash₂
-  │              │              │
-  ▼              ▼              ▼
-Key₀ ──tweak──► Key₁ ──tweak──► Key₂
-  │              │              │
-  ▼              ▼              ▼
-UTXO₀ ─spend─► UTXO₁ ─spend─► UTXO₂
+```mermaid
+flowchart TB
+    subgraph state["State Layer"]
+        S0["State₀"] --> S1["State₁"] --> S2["State₂"]
+    end
+
+    subgraph hash["Hash Layer"]
+        H0["Hash₀"] --> H1["Hash₁"] --> H2["Hash₂"]
+    end
+
+    subgraph keys["Key Layer"]
+        K0["Key₀"] -->|tweak| K1["Key₁"] -->|tweak| K2["Key₂"]
+    end
+
+    subgraph utxo["UTXO Layer"]
+        U0["UTXO₀"] -->|spend| U1["UTXO₁"] -->|spend| U2["UTXO₂"]
+    end
+
+    S0 --> H0 --> K0 --> U0
+    S1 --> H1 --> K1 --> U1
+    S2 --> H2 --> K2 --> U2
 ```
 
 The spend chain mirrors the key chain, creating verifiable history.
@@ -109,11 +120,12 @@ function verifyChain(states, initialPubkey) {
 
 Blocktrails uses the same curve as Nostr:
 
-```
-Nostr Keypair
-├── Sign events
-├── Encrypt messages
-└── Control Blocktrails
+```mermaid
+flowchart TB
+    Key["Nostr Keypair<br/>(secp256k1)"]
+    Key --> Sign["Sign events"]
+    Key --> Encrypt["Encrypt messages"]
+    Key --> Control["Control Blocktrails"]
 ```
 
 Your Nostr identity can directly own Blocktrails.
@@ -230,17 +242,21 @@ const iotLog = {
 
 ### Minimal Design
 
-```
-┌─────────────────────────────────┐
-│         Application             │
-│   (Define your own rules)       │
-├─────────────────────────────────┤
-│        Blocktrails              │
-│   (State → Key → Bitcoin)       │
-├─────────────────────────────────┤
-│          Bitcoin                │
-│   (Security & ordering)         │
-└─────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph app["Application Layer"]
+        A["Define your own rules"]
+    end
+
+    subgraph bt["Blocktrails Layer"]
+        B["State → Key → Bitcoin"]
+    end
+
+    subgraph btc["Bitcoin Layer"]
+        C["Security & ordering"]
+    end
+
+    app --> bt --> btc
 ```
 
 ### SPV Compatible

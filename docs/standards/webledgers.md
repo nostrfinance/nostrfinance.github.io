@@ -24,15 +24,11 @@ URI (any web identifier) → Balance (numerical value)
 
 Traditional ledgers map identifiers to balances:
 
-```
-┌─────────────────┬─────────────┐
-│   Identifier    │   Balance   │
-├─────────────────┼─────────────┤
-│ user@example    │    1,000    │
-│ did:nostr:abc   │      500    │
-│ https://...     │    2,500    │
-└─────────────────┴─────────────┘
-```
+| Identifier | Balance |
+|------------|---------|
+| user@example | 1,000 |
+| did:nostr:abc | 500 |
+| https://... | 2,500 |
 
 Web Ledgers extends this to any URI:
 

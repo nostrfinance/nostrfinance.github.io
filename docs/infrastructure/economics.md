@@ -20,12 +20,14 @@ The economic sustainability of Nostr relays is crucial for the network's long-te
 
 ### The Free Rider Problem
 
-```
-Users want: Free, reliable service
-Operators need: Revenue to sustain service
+```mermaid
+flowchart TB
+    Users["Users want:<br/>Free, reliable service"]
+    Operators["Operators need:<br/>Revenue to sustain service"]
+    Result["Result:<br/>Unsustainable free relays<br/>OR centralized paid services"]
 
-Result: Unsustainable free relays
-        OR centralized paid services
+    Users --> Result
+    Operators --> Result
 ```
 
 ## Revenue Models
@@ -75,18 +77,21 @@ Premium features:
 
 ### Scale Economics
 
-```
-Small relay: 1,000 users
-├── Storage: ~1GB/month
-├── Bandwidth: ~10GB/month
-├── Cost: ~$10/month
-└── Per user: ~$0.01/month
+```mermaid
+flowchart TB
+    subgraph small["Small Relay: 1,000 users"]
+        s1["Storage: ~1GB/month"]
+        s2["Bandwidth: ~10GB/month"]
+        s3["Cost: ~$10/month"]
+        s4["Per user: ~$0.01/month"]
+    end
 
-Large relay: 100,000 users
-├── Storage: ~100GB/month
-├── Bandwidth: ~1TB/month
-├── Cost: ~$200/month
-└── Per user: ~$0.002/month
+    subgraph large["Large Relay: 100,000 users"]
+        l1["Storage: ~100GB/month"]
+        l2["Bandwidth: ~1TB/month"]
+        l3["Cost: ~$200/month"]
+        l4["Per user: ~$0.002/month"]
+    end
 ```
 
 ## Sustainability Approaches

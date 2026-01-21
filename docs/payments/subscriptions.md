@@ -15,21 +15,16 @@ Subscriptions on Nostr work by:
 2. Subscriber zaps the tier event on a schedule
 3. Subscription status tracked via events
 
-```
-┌──────────────┐                      ┌──────────────┐
-│   Creator    │                      │  Subscriber  │
-└──────┬───────┘                      └──────┬───────┘
-       │                                     │
-       │ 1. Publish tier (kind 37001)       │
-       │◄────────────────────────────────────│
-       │                                     │
-       │ 2. Subscribe (kind 7001)           │
-       │◄────────────────────────────────────│
-       │                                     │
-       │     3. Recurring zaps              │
-       │◄═══════════════════════════════════│
-       │        (weekly/monthly)            │
-       │                                     │
+```mermaid
+sequenceDiagram
+    participant Creator
+    participant Subscriber
+
+    Creator->>Creator: 1. Publish tier (kind 37001)
+    Subscriber->>Creator: 2. Subscribe (kind 7001)
+    loop Recurring
+        Subscriber->>Creator: 3. Zaps (weekly/monthly)
+    end
 ```
 
 ## Subscription Tiers (NIP-88)
@@ -64,25 +59,13 @@ Creators define subscription options:
 
 ### Multiple Tiers Example
 
-```
 Creator: @alice
 
-┌─────────────────────────────────────────────────────┐
-│ Bronze Tier                           1,000 sats/mo │
-│ • Monthly newsletter                                │
-│ • Name in credits                                   │
-├─────────────────────────────────────────────────────┤
-│ Silver Tier                           5,000 sats/mo │
-│ • All Bronze perks                                  │
-│ • Early access to content                           │
-│ • Exclusive posts                                   │
-├─────────────────────────────────────────────────────┤
-│ Gold Tier                            21,000 sats/mo │
-│ • All Silver perks                                  │
-│ • Direct message access                             │
-│ • Monthly video call                                │
-└─────────────────────────────────────────────────────┘
-```
+| Tier | Price | Perks |
+|------|-------|-------|
+| **Bronze** | 1,000 sats/mo | Monthly newsletter, Name in credits |
+| **Silver** | 5,000 sats/mo | All Bronze perks + Early access, Exclusive posts |
+| **Gold** | 21,000 sats/mo | All Silver perks + DM access, Monthly video call |
 
 ## Subscribing
 

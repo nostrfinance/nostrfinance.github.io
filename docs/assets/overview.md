@@ -62,23 +62,30 @@ Regulated assets representing:
 
 ## Architecture Overview
 
-```
-┌─────────────────────────────────────────────────┐
-│               Nostr Application                  │
-│         (Wallet, Exchange, Marketplace)         │
-├─────────────────────────────────────────────────┤
-│            Nostr Assets Protocol                │
-│     (Transfer messages, Discovery, Trading)     │
-├──────────────────┬──────────────────────────────┤
-│  Taproot Assets  │      RGB Protocol            │
-│  (Lightning Labs)│   (LNP/BP Association)       │
-├──────────────────┴──────────────────────────────┤
-│              Lightning Network                   │
-│          (Fast transfers, Liquidity)            │
-├─────────────────────────────────────────────────┤
-│                   Bitcoin                        │
-│              (Security, Settlement)             │
-└─────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph app["Nostr Application<br/>(Wallet, Exchange, Marketplace)"]
+        ui["User Interface"]
+    end
+
+    subgraph protocol["Nostr Assets Protocol<br/>(Transfer messages, Discovery, Trading)"]
+        nostr["Asset Events"]
+    end
+
+    subgraph assets["Asset Protocols"]
+        taproot["Taproot Assets<br/>(Lightning Labs)"]
+        rgb["RGB Protocol<br/>(LNP/BP Association)"]
+    end
+
+    subgraph lightning["Lightning Network<br/>(Fast transfers, Liquidity)"]
+        ln["Payment Channels"]
+    end
+
+    subgraph bitcoin["Bitcoin<br/>(Security, Settlement)"]
+        btc["Base Layer"]
+    end
+
+    app --> protocol --> assets --> lightning --> bitcoin
 ```
 
 ## Key Concepts
@@ -87,12 +94,17 @@ Regulated assets representing:
 
 Both Taproot Assets and RGB use client-side validation:
 
-```
-Traditional Blockchain:
-All nodes validate all transactions
+```mermaid
+flowchart LR
+    subgraph traditional["Traditional Blockchain"]
+        direction TB
+        tx1["Transaction"] --> all["All nodes validate<br/>all transactions"]
+    end
 
-Client-Side Validation:
-Only participants validate their transactions
+    subgraph csv["Client-Side Validation"]
+        direction TB
+        tx2["Transaction"] --> participants["Only participants validate<br/>their transactions"]
+    end
 ```
 
 Benefits:

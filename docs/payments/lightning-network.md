@@ -12,17 +12,19 @@ The Lightning Network is a Layer 2 scaling solution for Bitcoin that enables ins
 
 Lightning is a network of payment channels built on top of Bitcoin:
 
-```
-┌─────────────────────────────────────────────────┐
-│              Lightning Network                   │
-│   ┌─────┐     ┌─────┐     ┌─────┐     ┌─────┐ │
-│   │Node │◄───►│Node │◄───►│Node │◄───►│Node │ │
-│   └─────┘     └─────┘     └─────┘     └─────┘ │
-│        Payment channels route payments          │
-├─────────────────────────────────────────────────┤
-│                 Bitcoin Blockchain               │
-│           (Settlement & Channel Funding)         │
-└─────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph ln["Lightning Network"]
+        direction LR
+        N1["Node"] <--> N2["Node"] <--> N3["Node"] <--> N4["Node"]
+        note["Payment channels route payments"]
+    end
+
+    subgraph btc["Bitcoin Blockchain<br/>(Settlement & Channel Funding)"]
+        base["Base Layer"]
+    end
+
+    ln --> btc
 ```
 
 ### Key Properties
@@ -43,22 +45,23 @@ Lightning is a network of payment channels built on top of Bitcoin:
 2. **Transacting**: Unlimited off-chain payments
 3. **Closing**: Settle final balance on-chain
 
+```mermaid
+flowchart LR
+    Alice <-->|"1 BTC Channel"| Bob
 ```
-Alice ←──── 1 BTC Channel ────► Bob
 
-Alice can send up to 1 BTC to Bob
-without touching the blockchain
-```
+Alice can send up to 1 BTC to Bob without touching the blockchain.
 
 ### Routing
 
 Payments route through multiple channels:
 
+```mermaid
+flowchart LR
+    Alice --> |"0.001%"| Node1 --> |"0.001%"| Node2 --> |"0.001%"| Node3 --> Bob
 ```
-Alice → Node1 → Node2 → Node3 → Bob
-        │        │        │
-     0.001%   0.001%   0.001%  (routing fees)
-```
+
+Each node charges a small routing fee.
 
 ## Lightning on Nostr
 
@@ -132,13 +135,11 @@ Maximum sovereignty:
 
 ### Invoice Structure
 
-```
-lnbc1000n1pj...
-│    │     │
-│    │     └── Data payload (payment hash, etc.)
-│    └──────── Amount (1000 sats)
-└───────────── Network (lnbc = mainnet)
-```
+| Component | Example | Description |
+|-----------|---------|-------------|
+| Network prefix | `lnbc` | mainnet |
+| Amount | `1000n` | 1000 sats |
+| Data payload | `1pj...` | Payment hash, etc. |
 
 ### Invoice Fields
 
@@ -174,10 +175,16 @@ Via NWC:
 ### Inbound Liquidity
 
 To receive, you need inbound capacity:
-```
-Channel: Alice ←─ 1 BTC ─→ Bob
-         │                   │
-    Outbound: 1 BTC    Inbound: 0 BTC
+
+```mermaid
+flowchart LR
+    subgraph alice["Alice"]
+        out["Outbound: 1 BTC"]
+    end
+    subgraph bob["Bob"]
+        in["Inbound: 0 BTC"]
+    end
+    alice <--> |"1 BTC Channel"| bob
 ```
 
 Solutions:

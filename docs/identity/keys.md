@@ -14,12 +14,17 @@ Understanding Nostr's cryptographic foundations is essential for secure financia
 
 Nostr uses secp256k1 elliptic curve cryptography:
 
-```
-Private Key (nsec)          Public Key (npub)
-┌─────────────────┐        ┌─────────────────┐
-│ 32 bytes random │───────►│ Point on curve  │
-│ KEEP SECRET!    │        │ Share freely    │
-└─────────────────┘        └─────────────────┘
+```mermaid
+flowchart LR
+    subgraph priv["Private Key (nsec)"]
+        p1["32 bytes random"]
+        p2["KEEP SECRET!"]
+    end
+    subgraph pub["Public Key (npub)"]
+        k1["Point on curve"]
+        k2["Share freely"]
+    end
+    priv --> pub
 ```
 
 ### Key Formats
@@ -90,14 +95,15 @@ DON'T:
 
 ### Key Hierarchy for Finance
 
-```
-Master Seed (BIP-39)
-├── Bitcoin keys (m/44'/0'/...)
-├── Lightning keys
-└── Nostr keys (m/44'/1237'/...)
-    ├── Main identity
-    ├── Trading account
-    └── Anonymous account
+```mermaid
+flowchart TB
+    seed["Master Seed (BIP-39)"]
+    seed --> btc["Bitcoin keys (m/44'/0'/...)"]
+    seed --> ln["Lightning keys"]
+    seed --> nostr["Nostr keys (m/44'/1237'/...)"]
+    nostr --> main["Main identity"]
+    nostr --> trade["Trading account"]
+    nostr --> anon["Anonymous account"]
 ```
 
 ## Signing Operations
@@ -182,26 +188,18 @@ Benefits:
 
 Projects working on Nostr hardware wallet support:
 
-```
-Ledger App (in development)
-├── Key derivation
-├── Event signing
-└── NIP-07 bridge
-```
+**Ledger App (in development)**
+- Key derivation
+- Event signing
+- NIP-07 bridge
 
 ### Security Model
 
-```
-┌──────────────┐     ┌──────────────┐
-│   Web App    │◄───►│  Extension   │
-└──────────────┘     └──────┬───────┘
-                            │
-                     ┌──────▼───────┐
-                     │   Hardware   │
-                     │    Wallet    │
-                     └──────────────┘
-
-Private key never leaves hardware
+```mermaid
+flowchart TB
+    app["Web App"] <--> ext["Extension"]
+    ext <--> hw["Hardware Wallet"]
+    note["Private key never leaves hardware"]
 ```
 
 ## Key Rotation
@@ -235,14 +233,10 @@ Private key never leaves hardware
 
 For high-value operations:
 
-```
-Transaction requires:
-├── Key A signature ✓
-├── Key B signature ✓
-└── Key C signature (optional)
-
-2-of-3 multisig for financial operations
-```
+**Transaction requires (2-of-3 multisig):**
+- Key A signature ✓
+- Key B signature ✓
+- Key C signature (optional)
 
 ### Current Workarounds
 
@@ -283,17 +277,16 @@ Newer, more secure encryption:
 
 ### Seed Phrase Backup
 
-```
 Your 12/24 word seed phrase:
-┌─────────────────────────────────┐
-│ 1. abandon   7. gallery        │
-│ 2. ability   8. garden         │
-│ ...                            │
-│ 12. zone                       │
-└─────────────────────────────────┘
+
+| Word # | Example |
+|--------|---------|
+| 1 | abandon |
+| 2 | ability |
+| ... | ... |
+| 12 | zone |
 
 Store securely! This recovers everything.
-```
 
 ### Social Recovery
 

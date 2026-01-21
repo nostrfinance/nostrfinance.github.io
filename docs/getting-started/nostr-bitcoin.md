@@ -40,14 +40,11 @@ This shared cryptography means:
 
 The Lightning Network bridges Bitcoin and Nostr for instant payments:
 
-```
-┌─────────────┐     Lightning      ┌─────────────┐
-│  Nostr      │◄──────────────────►│   Bitcoin   │
-│  Client     │     (Zaps)         │   Wallet    │
-└─────────────┘                    └─────────────┘
-        │                                 │
-        ▼                                 ▼
-   Relay Network                   Bitcoin Network
+```mermaid
+flowchart TB
+    nostr["Nostr Client"] <-->|"Lightning (Zaps)"| wallet["Bitcoin Wallet"]
+    nostr --> relays["Relay Network"]
+    wallet --> btc["Bitcoin Network"]
 ```
 
 When you "zap" someone on Nostr:
@@ -84,10 +81,9 @@ Nostr can provide cryptographic proof of Bitcoin payments:
 
 NWC uses Nostr relays to communicate between apps and wallets:
 
-```
-┌──────────┐                    ┌──────────┐
-│   App    │◄───Nostr Relay────►│  Wallet  │
-└──────────┘    (encrypted)     └──────────┘
+```mermaid
+flowchart LR
+    app["App"] <-->|"Nostr Relay<br/>(encrypted)"| wallet["Wallet"]
 ```
 
 Benefits:
@@ -95,14 +91,14 @@ Benefits:
 - Works across firewalls and NATs
 - Wallet can be on a separate device
 
-### Cashu eCash
+### Taproot Native Payments
 
-Cashu mints use Lightning for deposits/withdrawals:
+Your Nostr key can receive Bitcoin directly via Taproot:
 
-```
-User deposits BTC ──► Mint creates eCash tokens
-eCash tokens ──► Private transfers on Nostr
-Redeem tokens ──► Mint pays via Lightning
+```mermaid
+flowchart LR
+    npub["Nostr pubkey (npub)"] --> p2tr["Bitcoin P2TR Address (bc1p...)"]
+    p2tr --> receive["Receive On-Chain BTC"]
 ```
 
 ## What Nostr is NOT
@@ -123,17 +119,22 @@ Nostr is a **communication protocol** that works alongside Bitcoin.
 
 A full Nostr + Bitcoin stack includes:
 
-```
-┌─────────────────────────────────────────┐
-│          Application Layer              │
-│  (Damus, Amethyst, Primal, Nostrudel)  │
-├─────────────────────────────────────────┤
-│         Protocol Layer                  │
-│    Nostr (NIPs)  │  Lightning (BOLTs)  │
-├─────────────────────────────────────────┤
-│          Base Layer                     │
-│              Bitcoin                    │
-└─────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph app["Application Layer"]
+        apps["Damus, Amethyst, Primal, Nostrudel"]
+    end
+
+    subgraph protocol["Protocol Layer"]
+        nostr["Nostr (NIPs)"]
+        ln["Lightning (BOLTs)"]
+    end
+
+    subgraph base["Base Layer"]
+        btc["Bitcoin"]
+    end
+
+    app --> protocol --> base
 ```
 
 ## Real-World Examples

@@ -26,29 +26,30 @@ Asset Issuance → Taproot Commitment → Lightning Transfers
 
 Assets are embedded in Taproot outputs:
 
-```
-Bitcoin Transaction
-    │
-    └── Taproot Output
-            │
-            └── Asset Commitment
-                    │
-                    ├── Asset ID
-                    ├── Amount
-                    └── Ownership Proof
+```mermaid
+flowchart TB
+    tx["Bitcoin Transaction"]
+    tx --> taproot["Taproot Output"]
+    taproot --> commit["Asset Commitment"]
+    commit --> id["Asset ID"]
+    commit --> amount["Amount"]
+    commit --> proof["Ownership Proof"]
 ```
 
 The Bitcoin blockchain only sees a standard Taproot output.
 
 ### Client-Side Validation
 
-```
-Traditional Token:
-All nodes validate all transfers
+```mermaid
+flowchart LR
+    subgraph trad["Traditional Token"]
+        t1["All nodes validate all transfers"]
+    end
 
-Taproot Assets:
-Only sender & receiver validate
-Proof passed directly between parties
+    subgraph ta["Taproot Assets"]
+        t2["Only sender & receiver validate"]
+        t3["Proof passed directly between parties"]
+    end
 ```
 
 Benefits:
@@ -126,20 +127,15 @@ Via payment channels:
 
 ### Transfer Flow (Lightning)
 
-```
-Alice                           Bob
-  │                              │
-  │  1. Create asset transfer    │
-  │────────────────────────────►│
-  │                              │
-  │  2. Lightning routes payment │
-  │════════════════════════════►│
-  │                              │
-  │  3. Proof delivered          │
-  │────────────────────────────►│
-  │                              │
-  │  Both parties have valid     │
-  │  proofs of ownership         │
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant Bob
+
+    Alice->>Bob: 1. Create asset transfer
+    Alice->>Bob: 2. Lightning routes payment
+    Alice->>Bob: 3. Proof delivered
+    Note over Alice,Bob: Both parties have valid<br/>proofs of ownership
 ```
 
 ## Universe Servers
@@ -149,20 +145,16 @@ Taproot Assets uses "Universe Servers" for:
 - Proof distribution
 - State synchronization
 
-```
-┌─────────────────────────────────┐
-│        Universe Server          │
-│  ┌─────────────────────────┐   │
-│  │ Asset Registry          │   │
-│  │ Proof Archive           │   │
-│  │ Sync Endpoints          │   │
-│  └─────────────────────────┘   │
-└─────────────────────────────────┘
-         ▲           ▲
-         │           │
-    ┌────┴───┐  ┌───┴────┐
-    │ Wallet │  │ Wallet │
-    └────────┘  └────────┘
+```mermaid
+flowchart TB
+    subgraph universe["Universe Server"]
+        registry["Asset Registry"]
+        archive["Proof Archive"]
+        sync["Sync Endpoints"]
+    end
+
+    wallet1["Wallet"] <--> universe
+    wallet2["Wallet"] <--> universe
 ```
 
 ## Nostr Integration

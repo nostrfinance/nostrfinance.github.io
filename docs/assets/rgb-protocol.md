@@ -24,19 +24,18 @@ RGB = Bitcoin Security + Smart Contract Flexibility + Privacy
 
 ### Client-Side Validation Model
 
-```
-Traditional Blockchain:
-┌────────────────────────────────────┐
-│     All nodes see all data         │
-│     All nodes validate all txs     │
-└────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph trad["Traditional Blockchain"]
+        t1["All nodes see all data"]
+        t2["All nodes validate all txs"]
+    end
 
-RGB:
-┌────────────────────────────────────┐
-│  Blockchain stores commitments     │
-│  Actual data exchanged privately   │
-│  Only participants validate        │
-└────────────────────────────────────┘
+    subgraph rgb["RGB"]
+        r1["Blockchain stores commitments"]
+        r2["Actual data exchanged privately"]
+        r3["Only participants validate"]
+    end
 ```
 
 ### Components
@@ -89,12 +88,11 @@ State Transition:
 
 Commits to Bitcoin:
 
-```
-Bitcoin TX
-    │
-    └── OP_RETURN (commitment)
-            │
-            └── RGB state hash
+```mermaid
+flowchart TB
+    tx["Bitcoin TX"]
+    tx --> opr["OP_RETURN (commitment)"]
+    opr --> hash["RGB state hash"]
 ```
 
 ## RGB vs Taproot Assets
@@ -159,11 +157,10 @@ Vesting Schedule:
 
 RGB can work with Lightning Network:
 
-```
-RGB State                    Lightning Channel
-    │                              │
-    └── Offchain Transfers ◄──────┘
-         (Instant settlement)
+```mermaid
+flowchart LR
+    rgb["RGB State"] --> offchain["Offchain Transfers<br/>(Instant settlement)"]
+    ln["Lightning Channel"] --> offchain
 ```
 
 ### Current Status

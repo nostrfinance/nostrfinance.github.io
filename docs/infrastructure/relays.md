@@ -16,16 +16,11 @@ Relays are:
 - **Independent** - each has its own policies
 - **The backbone** of Nostr's infrastructure
 
-```
-┌────────┐     ┌────────┐     ┌────────┐
-│ Client │◄───►│ Relay  │◄───►│ Client │
-└────────┘     └────────┘     └────────┘
-     │              │              │
-     └──────────────┼──────────────┘
-                    │
-               ┌────────┐
-               │ Relay  │
-               └────────┘
+```mermaid
+flowchart TB
+    C1["Client"] <--> R1["Relay"] <--> C2["Client"]
+    C1 <--> R2["Relay"]
+    C2 <--> R2
 ```
 
 ## Relay Types
@@ -67,11 +62,12 @@ Restricted access:
 
 ### Recommended Strategy
 
-```
-Financial Events:
-├── Primary: 2-3 reliable paid relays
-├── Backup: 1-2 free relays
-└── Personal: Your own relay (optional)
+```mermaid
+flowchart TB
+    FE["Financial Events"]
+    FE --> P["Primary: 2-3 reliable paid relays"]
+    FE --> B["Backup: 1-2 free relays"]
+    FE --> PR["Personal: Your own relay (optional)"]
 ```
 
 ## Finance-Specific Considerations
@@ -94,12 +90,12 @@ For zap receipt delivery:
 - Use relays recipient is connected to
 - Check relay list in profiles
 
-### NutZaps
+### On-Chain Coordination
 
-For Cashu payments:
-- Publish to recipient's preferred relays
-- Check kind 10019 for relay hints
-- Ensure token delivery
+For on-chain payments:
+- Publish PSBTs to trusted relays
+- Use encrypted messages for sensitive data
+- Ensure delivery confirmation
 
 ## Running Your Own Relay
 

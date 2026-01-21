@@ -84,27 +84,39 @@ Nostr finance operates on the **Value for Value** (V4V) model:
 
 ### Architecture Diagram
 
-```
-┌─────────────────────────────────────────────────────┐
-│                   User Interface                     │
-│             (Damus, Amethyst, Primal)               │
-├─────────────────────────────────────────────────────┤
-│                    NIP-57 Zaps                       │
-│  ┌────────────────────────────────────────────────┐ │
-│  │    Zap Request (9734) → Zap Receipt (9735)    │ │
-│  └────────────────────────────────────────────────┘ │
-├─────────────────────────────────────────────────────┤
-│              NIP-47 Nostr Wallet Connect            │
-│  ┌────────────────────────────────────────────────┐ │
-│  │  pay_invoice │ make_invoice │ get_balance     │ │
-│  └────────────────────────────────────────────────┘ │
-├─────────────────────────────────────────────────────┤
-│                 Lightning Network                    │
-│            (Instant Bitcoin Payments)               │
-├─────────────────────────────────────────────────────┤
-│                  Bitcoin Network                     │
-│        (On-Chain Settlement, Taproot/P2TR)         │
-└─────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph UI["User Interface"]
+        direction LR
+        Damus
+        Amethyst
+        Primal
+    end
+
+    subgraph Zaps["NIP-57 Zaps"]
+        direction LR
+        ZR["Zap Request (9734)"] --> ZRec["Zap Receipt (9735)"]
+    end
+
+    subgraph NWC["NIP-47 Nostr Wallet Connect"]
+        direction LR
+        pay["pay_invoice"]
+        make["make_invoice"]
+        bal["get_balance"]
+    end
+
+    subgraph LN["Lightning Network"]
+        Lightning["Instant Bitcoin Payments"]
+    end
+
+    subgraph BTC["Bitcoin Network"]
+        Taproot["On-Chain Settlement (Taproot/P2TR)"]
+    end
+
+    UI --> Zaps
+    Zaps --> NWC
+    NWC --> LN
+    LN --> BTC
 ```
 
 ## Common Payment Amounts

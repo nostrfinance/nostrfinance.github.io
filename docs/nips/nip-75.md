@@ -275,21 +275,15 @@ class GoalMonitor {
 
 ## UI Example
 
-```
-┌─────────────────────────────────────────────┐
-│  🎯 Podcast Equipment Upgrade               │
-│                                             │
-│  Help me buy new recording equipment!       │
-│                                             │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 75%      │
-│  750,000 / 1,000,000 sats                   │
-│                                             │
-│  👥 42 contributors                         │
-│  ⏰ 5 days remaining                        │
-│                                             │
-│            [⚡ Contribute]                   │
-└─────────────────────────────────────────────┘
-```
+A typical Zap Goal UI displays:
+
+| Element | Value |
+|---------|-------|
+| **Title** | Podcast Equipment Upgrade |
+| **Progress** | 75% (750,000 / 1,000,000 sats) |
+| **Contributors** | 42 contributors |
+| **Time Left** | 5 days remaining |
+| **Action** | Contribute button |
 
 ## Best Practices
 

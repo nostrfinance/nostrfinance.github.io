@@ -16,11 +16,9 @@ NWC provides:
 - **Budget controls** for spending limits
 - **Cross-platform compatibility**
 
-```
-┌─────────────┐    Encrypted     ┌─────────────┐
-│  Nostr App  │◄───over Nostr───►│   Wallet    │
-│ (Client)    │     Relays       │  (Service)  │
-└─────────────┘                  └─────────────┘
+```mermaid
+flowchart LR
+    App["Nostr App<br/>(Client)"] <-->|"Encrypted<br/>over Nostr Relays"| Wallet["Wallet<br/>(Service)"]
 ```
 
 ## How NWC Works
@@ -36,9 +34,15 @@ NWC provides:
 
 All messages are NIP-04 encrypted Nostr events:
 
-```
-App → Relay → Wallet : Request (encrypted)
-Wallet → Relay → App : Response (encrypted)
+```mermaid
+sequenceDiagram
+    participant App
+    participant Relay
+    participant Wallet
+    App->>Relay: Request (encrypted)
+    Relay->>Wallet: Forward request
+    Wallet->>Relay: Response (encrypted)
+    Relay->>App: Forward response
 ```
 
 The relay only sees encrypted blobs - it can't read payment details.

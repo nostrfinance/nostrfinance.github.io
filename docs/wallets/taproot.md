@@ -12,17 +12,19 @@ Nostr is **Taproot native**. Both Nostr and Bitcoin Taproot use the same secp256
 
 ### Shared Cryptography
 
-```
-Nostr Key (secp256k1)     Bitcoin Taproot (secp256k1)
-        │                          │
-        └──────────┬───────────────┘
-                   │
-           Same Key Material
-                   │
-        ┌──────────┴───────────────┐
-        │                          │
-   npub/nsec                   P2TR Address
-  (Nostr Identity)          (Bitcoin Wallet)
+```mermaid
+flowchart TB
+    subgraph nostr["Nostr Key"]
+        N["secp256k1"]
+    end
+    subgraph btc["Bitcoin Taproot"]
+        B["secp256k1"]
+    end
+
+    N & B --> Key["Same Key Material<br/>(32 bytes)"]
+
+    Key --> npub["npub/nsec<br/>(Nostr Identity)"]
+    Key --> p2tr["bc1p...<br/>(P2TR Address)"]
 ```
 
 ### Key Relationship
@@ -47,11 +49,7 @@ P2TR (BIP-341) is the native SegWit v1 output type:
 
 ### P2TR Address Structure
 
-```
-bc1p + 32-byte x-only pubkey (Bech32m encoded)
-     │
-     └── Same pubkey as your Nostr npub!
-```
+`bc1p` + 32-byte x-only pubkey (Bech32m encoded) = Same pubkey as your Nostr npub
 
 ### Deriving P2TR from Nostr Key
 

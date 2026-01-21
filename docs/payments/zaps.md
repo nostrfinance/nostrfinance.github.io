@@ -24,24 +24,18 @@ The name comes from the lightning bolt emoji (⚡) commonly used for Lightning N
 
 ### The Zap Flow
 
-```
-┌──────────┐                                    ┌──────────┐
-│  Sender  │                                    │ Receiver │
-│ (Alice)  │                                    │  (Bob)   │
-└────┬─────┘                                    └────┬─────┘
-     │                                               │
-     │ 1. Create Zap Request (kind 9734)            │
-     │──────────────────────────────────────────────►│
-     │                                               │
-     │ 2. LNURL returns Lightning Invoice           │
-     │◄──────────────────────────────────────────────│
-     │                                               │
-     │ 3. Pay Invoice via Lightning                 │
-     │══════════════════════════════════════════════►│
-     │                                               │
-     │ 4. Zap Receipt published (kind 9735)         │
-     │◄──────────────────────────────────────────────│
-     │                                               │
+```mermaid
+sequenceDiagram
+    participant Alice as Sender (Alice)
+    participant LNURL as LNURL Service
+    participant LN as Lightning Network
+    participant Bob as Receiver (Bob)
+
+    Alice->>LNURL: 1. Create Zap Request (kind 9734)
+    LNURL-->>Alice: 2. Return Lightning Invoice
+    Alice->>LN: 3. Pay Invoice
+    LN->>Bob: Payment received
+    Bob->>Alice: 4. Publish Zap Receipt (kind 9735)
 ```
 
 ### Step-by-Step
