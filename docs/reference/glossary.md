@@ -26,9 +26,6 @@ Standard format for Lightning Network payment invoices.
 
 ## C
 
-### Cashu
-Chaumian eCash protocol built on Bitcoin for privacy-preserving payments. [Learn more →](/wallets/cashu)
-
 ### Channel (Lightning)
 Payment pathway between two Lightning nodes enabling off-chain transactions.
 
@@ -41,9 +38,6 @@ Application that connects to Nostr relays to send and receive events.
 W3C standard for decentralized identifiers. DID:Nostr uses Nostr keys as DIDs. [Learn more →](/identity/did-nostr)
 
 ## E
-
-### eCash
-Digital cash with privacy properties, implemented by Cashu on Bitcoin.
 
 ### Event
 The fundamental data unit in Nostr - a signed JSON object.
@@ -74,9 +68,6 @@ Protocol simplifying Lightning interactions (pay, withdraw, auth).
 ### Millisatoshi (msat)
 One thousandth of a satoshi, used for precise Lightning amounts.
 
-### Mint
-Cashu service that issues and redeems eCash tokens.
-
 ## N
 
 ### NIP (Nostr Implementation Possibility)
@@ -94,12 +85,6 @@ Nostr Wallet Connect (NWC) specification. [Learn more →](/nips/nip-47)
 ### NIP-57
 Lightning Zaps specification. [Learn more →](/nips/nip-57)
 
-### NIP-60
-Cashu wallet storage specification. [Learn more →](/nips/nip-60)
-
-### NIP-61
-NutZaps (eCash payments) specification. [Learn more →](/nips/nip-61)
-
 ### NIP-75
 Zap Goals (crowdfunding) specification. [Learn more →](/nips/nip-75)
 
@@ -112,9 +97,6 @@ Bech32-encoded Nostr public key (e.g., npub1abc...).
 ### nsec
 Bech32-encoded Nostr private key. **Keep secret!**
 
-### NutZap
-Cashu eCash payment sent via Nostr. [Learn more →](/payments/nutzaps)
-
 ### NWC (Nostr Wallet Connect)
 Protocol for connecting wallets to apps via Nostr. [Learn more →](/wallets/nwc)
 
@@ -123,11 +105,14 @@ Protocol for connecting wallets to apps via Nostr. [Learn more →](/wallets/nwc
 ### P2PK (Pay to Public Key)
 Locking mechanism where only the holder of a private key can spend.
 
+### P2TR (Pay to Taproot)
+Bitcoin output type using Taproot. Nostr npubs can derive P2TR addresses directly. [Learn more →](/wallets/taproot)
+
 ### Preimage
 Secret value revealed upon Lightning payment completion, serving as proof.
 
-### Proof (Cashu)
-Cryptographic token representing spendable eCash.
+### PSBT (Partially Signed Bitcoin Transaction)
+Standard format for unsigned or partially signed Bitcoin transactions, useful for multisig and hardware wallets.
 
 ## R
 
@@ -151,7 +136,10 @@ Merchant's store in NIP-15 marketplace protocol.
 ## T
 
 ### Taproot
-Bitcoin upgrade enabling improved privacy and efficiency, used by Taproot Assets.
+Bitcoin upgrade (BIP-340/341/342) enabling Schnorr signatures and MAST. Nostr and Taproot share the same secp256k1 cryptography with x-only public keys.
+
+### Taproot Native
+The property that Nostr keys can directly control Bitcoin via P2TR addresses - no bridges or wrapping needed. [Learn more →](/wallets/taproot)
 
 ### Taproot Assets
 Protocol for issuing assets on Bitcoin with Lightning support. [Learn more →](/assets/taproot-assets)

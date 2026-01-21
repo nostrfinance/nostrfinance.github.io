@@ -29,8 +29,6 @@ Draft → Discussion → Implementation → Adoption
 |-----|------|---------|--------|
 | [NIP-47](/nips/nip-47) | Nostr Wallet Connect | Wallet-app communication | Merged |
 | [NIP-57](/nips/nip-57) | Lightning Zaps | Tipping via Lightning | Merged |
-| [NIP-60](/nips/nip-60) | Cashu Wallets | eCash on Nostr | Merged |
-| [NIP-61](/nips/nip-61) | NutZaps | eCash payments | Merged |
 | [NIP-75](/nips/nip-75) | Zap Goals | Crowdfunding | Merged |
 
 ### Commerce NIPs
@@ -57,19 +55,9 @@ Draft → Discussion → Implementation → Adoption
 |------|------|-----|
 | 9734 | Zap Request | 57 |
 | 9735 | Zap Receipt | 57 |
-| 9321 | NutZap | 61 |
 | 9041 | Zap Goal | 75 |
 | 23194 | NWC Request | 47 |
 | 23195 | NWC Response | 47 |
-
-### Wallet Events
-
-| Kind | Name | NIP |
-|------|------|-----|
-| 17375 | Wallet Info | 60 |
-| 7375 | Wallet Tokens | 60 |
-| 7376 | Wallet History | 60 |
-| 10019 | Mint Preferences | 61 |
 
 ### Commerce Events
 
@@ -87,19 +75,18 @@ Draft → Discussion → Implementation → Adoption
 ┌─────────────────────────────────────────────────────────┐
 │                     Application                         │
 │                   (Nostr Client)                        │
-├────────────────┬────────────────┬───────────────────────┤
-│   NIP-57       │    NIP-61      │      NIP-75          │
-│   Zaps         │    NutZaps     │      Goals           │
-├────────────────┴────────────────┴───────────────────────┤
+├────────────────────────────────────────────────────────┤
+│           NIP-57 Zaps    │      NIP-75 Goals           │
+├────────────────────────────────────────────────────────┤
 │                      NIP-47                             │
 │                Nostr Wallet Connect                     │
-├─────────────────────────────────────────────────────────┤
-│                      NIP-60                             │
-│                   Cashu Wallets                         │
-├─────────────────────────────────────────────────────────┤
+├────────────────────────────────────────────────────────┤
 │                      NIP-01                             │
 │                   Base Protocol                         │
-└─────────────────────────────────────────────────────────┘
+├────────────────────────────────────────────────────────┤
+│                  Lightning Network                      │
+│                    + Taproot                            │
+└────────────────────────────────────────────────────────┘
 ```
 
 ### Tag Dependencies
@@ -121,6 +108,24 @@ Zap Receipt (9735)
 └── ["preimage", ...]
 ```
 
+## Taproot Native
+
+While not a formal NIP, the cryptographic alignment between Nostr and Bitcoin Taproot is fundamental:
+
+### Shared Foundation
+
+| Property | Nostr | Bitcoin Taproot |
+|----------|-------|-----------------|
+| Curve | secp256k1 | secp256k1 |
+| Public Key Format | x-only (32 bytes) | x-only (32 bytes) |
+| Signature Scheme | Schnorr | Schnorr |
+
+### Implications
+
+- Your npub can derive a P2TR address
+- Nostr keys can sign Bitcoin transactions
+- Identity and value transfer unified
+
 ## Implementation Guide
 
 ### For Client Developers
@@ -128,13 +133,13 @@ Zap Receipt (9735)
 1. **Start with NIP-01** - Understand base protocol
 2. **Add NIP-57** - Enable zapping (most requested)
 3. **Integrate NIP-47** - Wallet connectivity
-4. **Consider NIP-60/61** - For Cashu support
+4. **Consider Taproot** - On-chain integration
 
 ### For Wallet Developers
 
 1. **Implement NIP-47** - Become NWC compatible
 2. **Support NIP-57** - Generate zap receipts
-3. **Consider NIP-60** - Cashu wallet storage
+3. **Consider P2TR** - Taproot address derivation
 
 ### For Marketplace Builders
 
@@ -180,8 +185,6 @@ Zap Receipt (9735)
 
 - [NIP-47: Nostr Wallet Connect](/nips/nip-47)
 - [NIP-57: Lightning Zaps](/nips/nip-57)
-- [NIP-60: Cashu Wallets](/nips/nip-60)
-- [NIP-61: NutZaps](/nips/nip-61)
 - [NIP-75: Zap Goals](/nips/nip-75)
 
 ---

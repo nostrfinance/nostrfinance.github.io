@@ -6,7 +6,18 @@ description: Bitcoin and Lightning wallets for Nostr
 
 # Nostr Wallets Overview
 
-Wallets are essential for Nostr finance - they hold your Bitcoin and enable payments. This guide covers the different wallet types and how they integrate with Nostr.
+Wallets are essential for Nostr finance - they hold your Bitcoin and enable payments. Because Nostr is **Taproot native**, your Nostr keys can directly control Bitcoin.
+
+## The Taproot Connection
+
+Your Nostr keypair uses the same cryptography as Bitcoin Taproot (secp256k1):
+
+```
+Your nsec (private key) → Signs Nostr events AND Bitcoin transactions
+Your npub (public key) → Your identity AND your P2TR address
+```
+
+This means you can hold Bitcoin directly with your Nostr identity - no separate wallet required for on-chain.
 
 ## Wallet Types
 
@@ -24,7 +35,7 @@ Wallets are essential for Nostr finance - they hold your Bitcoin and enable paym
 |-------|-------------|----------|
 | **Native** | Built into Nostr client | Primal, Damus built-in |
 | **Connected** | Via NWC protocol | Alby, Zeus via NWC |
-| **External** | Manual invoices | Any Lightning wallet |
+| **Taproot Direct** | Using Nostr keys | P2TR from npub |
 
 ## Recommended Wallets
 
@@ -56,18 +67,19 @@ Wallets are essential for Nostr finance - they hold your Bitcoin and enable paym
 - NWC support
 - [zeusln.app](https://zeusln.app)
 
-### For Privacy
+### For On-Chain / Taproot
 
-#### Mutiny Wallet
-- Self-custodial
-- Privacy-focused
-- Web-based
-- [mutinywallet.com](https://mutinywallet.com)
+#### Sparrow Wallet
+- Full Taproot support
+- Import Nostr keys
+- PSBT support
+- [sparrowwallet.com](https://sparrowwallet.com)
 
-#### Cashu Wallets
-- eCash privacy
-- Instant transfers
-- [More on Cashu →](/wallets/cashu)
+#### Hardware Wallets
+- Ledger, Trezor, Coldcard
+- P2TR support
+- Maximum security
+- [Learn more →](/wallets/taproot)
 
 ## Connection Methods
 
@@ -100,24 +112,27 @@ Set in your Nostr profile:
 }
 ```
 
-### LNURL
+### P2TR Address (On-Chain)
 
-Protocol for Lightning interactions:
-- lnurl-pay (receiving)
-- lnurl-withdraw (claiming)
-- lnurl-auth (login)
+Derive from your npub for on-chain receiving:
+
+```json
+{
+  "bitcoin": "bc1p..."
+}
+```
 
 ## Wallet Comparison
 
-| Wallet | Type | NWC | Platform | Cashu |
-|--------|------|-----|----------|-------|
+| Wallet | Type | NWC | Platform | On-Chain |
+|--------|------|-----|----------|----------|
 | Alby Extension | Custodial* | Yes | Browser | No |
 | Alby Hub | Self-custodial | Yes | Self-hosted | No |
 | Zeus | Self-custodial | Yes | Mobile | Yes |
-| Mutiny | Self-custodial | Yes | Web | No |
-| Phoenix | Self-custodial | No | Mobile | No |
+| Mutiny | Self-custodial | Yes | Web | Yes |
+| Phoenix | Self-custodial | No | Mobile | Yes |
 | Primal | Custodial | Built-in | Mobile/Web | No |
-| Minibits | Self-custodial | No | Mobile | Yes |
+| Sparrow | Self-custodial | No | Desktop | Yes |
 
 *Alby is transitioning to Alby Hub for self-custody
 
@@ -129,7 +144,7 @@ Consider:
 - How much control you want
 - Your technical comfort level
 - Platforms you use (mobile, desktop, web)
-- Privacy requirements
+- Lightning vs on-chain needs
 
 ### Step 2: Fund the Wallet
 
@@ -152,6 +167,11 @@ Options:
 2. Add to Nostr profile (`lud16`)
 3. Others can now zap you
 
+#### Via P2TR (On-Chain)
+1. Derive P2TR address from npub
+2. Add to Nostr profile (`bitcoin`)
+3. Receive on-chain payments
+
 ## Security Best Practices
 
 ### Spending Wallets
@@ -165,7 +185,8 @@ For daily zapping:
 
 For larger amounts:
 - Self-custodial
-- Hardware wallet backup
+- Hardware wallet
+- P2TR addresses from derived keys
 - Multi-signature if large
 
 ### Key Management
@@ -174,6 +195,7 @@ For larger amounts:
 ✓ Backup seed phrase
 ✓ Store offline
 ✓ Test recovery
+✓ Consider key derivation for Bitcoin
 ✗ Store digitally
 ✗ Share with others
 ```
@@ -196,6 +218,15 @@ Ensure profile has:
 }
 ```
 
+### On-Chain Payments
+
+For larger amounts:
+```json
+{
+  "bitcoin": "bc1p..."
+}
+```
+
 ### Checking Balance
 
 Via NWC:
@@ -203,18 +234,6 @@ Via NWC:
 {
   "method": "get_balance",
   "params": {}
-}
-```
-
-### Creating Invoices
-
-```json
-{
-  "method": "make_invoice",
-  "params": {
-    "amount": 1000,
-    "description": "Thanks!"
-  }
 }
 ```
 
@@ -241,12 +260,12 @@ Via NWC:
 ## Further Reading
 
 - [Nostr Wallet Connect](/wallets/nwc)
-- [Cashu eCash](/wallets/cashu)
+- [Taproot Wallets](/wallets/taproot)
 - [Alby Guide](/wallets/alby)
 - [NDK Wallet Toolkit](/wallets/ndk-wallet)
 
 ---
 
-:::tip Start Simple
-Begin with a custodial wallet like Alby to learn. Once comfortable, graduate to self-custodial options for more control and security.
+:::tip Taproot Native
+Your Nostr keys are Bitcoin keys. For on-chain payments, you can derive a P2TR address directly from your npub - no separate wallet needed for receiving.
 :::

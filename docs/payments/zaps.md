@@ -195,10 +195,6 @@ High zap counts signal:
 - **Event zaps**: Tip specific posts
 - **Profile zaps**: General support for a user
 
-### Private Zaps
-
-For more privacy, consider [NutZaps](/payments/nutzaps) which hide amounts and sender information.
-
 ### Anonymous Zaps
 
 Some clients support anonymous zapping:
@@ -248,7 +244,7 @@ Some clients support anonymous zapping:
 - [NIP-57 Specification](https://github.com/nostr-protocol/nips/blob/master/57.md)
 - [Lightning Network](/payments/lightning-network)
 - [Nostr Wallet Connect](/wallets/nwc)
-- [NutZaps for Privacy](/payments/nutzaps)
+- [On-Chain Payments](/payments/onchain)
 
 ---
 

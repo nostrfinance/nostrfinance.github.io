@@ -6,16 +6,24 @@ description: Understanding payment methods on Nostr
 
 # Payments on Nostr
 
-Nostr enables several types of Bitcoin-based payments, from Lightning zaps to private eCash transfers. This overview covers all payment methods available in the ecosystem.
+Nostr enables Bitcoin-based payments at every layer - from instant Lightning zaps to native on-chain Taproot transactions. This overview covers all payment methods available in the ecosystem.
+
+## Nostr is Taproot Native
+
+The key insight: **Nostr and Bitcoin Taproot use the same cryptography** (secp256k1 with x-only public keys). Your Nostr identity can directly hold and transfer Bitcoin.
+
+```
+npub1... (Nostr) → bc1p... (Bitcoin P2TR)
+Same key, different encoding
+```
 
 ## Payment Methods Comparison
 
-| Method | Speed | Privacy | Fees | Best For |
-|--------|-------|---------|------|----------|
-| [Zaps (NIP-57)](/payments/zaps) | Instant | Public | Low | Tipping, social signals |
-| [NutZaps (NIP-61)](/payments/nutzaps) | Instant | Private | Very Low | Private tips |
-| [Lightning Direct](/payments/lightning-network) | Instant | Moderate | Low | Larger payments |
-| [On-chain Bitcoin](/payments/lightning-network#on-chain) | 10-60 min | Moderate | Variable | Large amounts |
+| Method | Speed | Best For | Learn More |
+|--------|-------|----------|------------|
+| [Lightning Zaps](/payments/zaps) | Instant | Tipping, social signals | NIP-57 |
+| [Lightning Direct](/payments/lightning-network) | Instant | Larger payments | BOLT11 |
+| [On-Chain P2TR](/payments/onchain) | 10-60 min | Large amounts, savings | Taproot |
 
 ## How Payments Flow
 
@@ -32,14 +40,15 @@ Nostr enables several types of Bitcoin-based payments, from Lightning zaps to pr
 8. Receipt appears on Bob's post
 ```
 
-### NutZap Flow (Private)
+### On-Chain Flow (Large Amounts)
 
 ```
-1. Alice wants to tip Bob privately
-2. Alice fetches Bob's mint preferences (kind 10019)
-3. Alice mints Cashu tokens at Bob's mint
-4. Alice publishes NutZap (kind 9321)
-5. Bob claims tokens to his wallet
+1. Alice wants to pay Bob 0.1 BTC
+2. Alice derives Bob's P2TR address from his npub
+3. Alice creates and signs transaction
+4. Transaction broadcasts to Bitcoin network
+5. Confirmation in ~10 minutes
+6. Optionally: Alice posts receipt on Nostr
 ```
 
 ## Value for Value
@@ -68,33 +77,33 @@ Nostr finance operates on the **Value for Value** (V4V) model:
 ### Required Components
 
 1. **Nostr Client** - User interface
-2. **Lightning Wallet** - Holds and sends funds
+2. **Lightning Wallet** - For instant payments
 3. **NWC Connection** - Links wallet to client
 4. **Relays** - Transmit payment events
+5. **Bitcoin Address** - For on-chain (derived from npub)
 
 ### Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                     User Interface                   │
-│              (Damus, Amethyst, Primal)              │
-├──────────────────────┬──────────────────────────────┤
-│      NIP-57 Zaps     │      NIP-61 NutZaps         │
-│  ┌────────────────┐  │  ┌────────────────────────┐ │
-│  │  Zap Request   │  │  │   Cashu Tokens        │ │
-│  │  Zap Receipt   │  │  │   P2PK Locked         │ │
-│  └────────────────┘  │  └────────────────────────┘ │
-├──────────────────────┴──────────────────────────────┤
-│               NIP-47 Nostr Wallet Connect           │
+│                   User Interface                     │
+│             (Damus, Amethyst, Primal)               │
+├─────────────────────────────────────────────────────┤
+│                    NIP-57 Zaps                       │
+│  ┌────────────────────────────────────────────────┐ │
+│  │    Zap Request (9734) → Zap Receipt (9735)    │ │
+│  └────────────────────────────────────────────────┘ │
+├─────────────────────────────────────────────────────┤
+│              NIP-47 Nostr Wallet Connect            │
 │  ┌────────────────────────────────────────────────┐ │
 │  │  pay_invoice │ make_invoice │ get_balance     │ │
 │  └────────────────────────────────────────────────┘ │
 ├─────────────────────────────────────────────────────┤
-│                  Lightning Network                   │
-│         (Instant Bitcoin Payments Layer)            │
+│                 Lightning Network                    │
+│            (Instant Bitcoin Payments)               │
 ├─────────────────────────────────────────────────────┤
-│                    Bitcoin Network                   │
-│              (Base Settlement Layer)                │
+│                  Bitcoin Network                     │
+│        (On-Chain Settlement, Taproot/P2TR)         │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -119,16 +128,11 @@ Typical zap amounts and their meanings:
 |------|------|---------|
 | 9734 | Zap Request | Initiates a zap |
 | 9735 | Zap Receipt | Proves payment |
-| 9321 | NutZap | eCash payment |
 | 9041 | Zap Goal | Crowdfunding target |
-| 7375 | Wallet Tokens | Cashu proofs |
-| 7376 | Wallet History | Spending log |
 
 ## Receiving Payments
 
-To receive payments on Nostr, you need:
-
-### 1. Lightning Address
+### Lightning Address (for Zaps)
 
 Add to your profile (kind 0):
 ```json
@@ -137,7 +141,16 @@ Add to your profile (kind 0):
 }
 ```
 
-### 2. LNURL (Alternative)
+### Bitcoin Address (for On-Chain)
+
+Add P2TR address derived from your npub:
+```json
+{
+  "bitcoin": "bc1p..."
+}
+```
+
+### LNURL (Alternative)
 
 ```json
 {
@@ -145,29 +158,16 @@ Add to your profile (kind 0):
 }
 ```
 
-### 3. For NutZaps
-
-Publish mint preferences (kind 10019):
-```json
-{
-  "kind": 10019,
-  "tags": [
-    ["mint", "https://mint.example.com", "sat"],
-    ["relay", "wss://relay.example.com"]
-  ]
-}
-```
-
 ## Further Reading
 
 - [Zaps Deep Dive](/payments/zaps)
-- [NutZaps Guide](/payments/nutzaps)
 - [Lightning Network](/payments/lightning-network)
+- [On-Chain Payments](/payments/onchain)
 - [Subscriptions](/payments/subscriptions)
 - [Crowdfunding](/payments/crowdfunding)
 
 ---
 
-:::info Micropayments Revolution
-Nostr enables true micropayments - sending $0.01 or less with minimal fees. This opens new monetization models impossible with traditional payment systems.
+:::info Taproot Native
+Because Nostr uses the same cryptography as Bitcoin Taproot, your identity IS your wallet. No bridges, no wrapping - just native Bitcoin on both layers.
 :::

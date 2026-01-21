@@ -4,14 +4,14 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Nostr Finance',
-  tagline: 'The Complete Guide to Finance on Nostr Protocol',
+  tagline: 'Bitcoin Payments, Taproot Native',
   favicon: 'img/favicon.ico',
 
   future: {
     v4: true,
   },
 
-  url: 'https://nostrfinance.github.io',
+  url: 'https://nostrfinance.com',
   baseUrl: '/',
 
   organizationName: 'nostrfinance',
@@ -23,6 +23,65 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:title',
+        content: 'Nostr Finance - Bitcoin Payments, Taproot Native',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:description',
+        content: 'The complete guide to Bitcoin, Lightning, and Taproot payments on Nostr. Your keys control your money.',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:image',
+        content: 'https://nostrfinance.com/img/og-image.png',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:url',
+        content: 'https://nostrfinance.com',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:title',
+        content: 'Nostr Finance - Bitcoin Payments, Taproot Native',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:description',
+        content: 'The complete guide to Bitcoin, Lightning, and Taproot payments on Nostr.',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:image',
+        content: 'https://nostrfinance.com/img/og-image.png',
+      },
+    },
+  ],
 
   presets: [
     [
@@ -42,12 +101,13 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/nostr-finance-social-card.png',
+    image: 'img/og-image.png',
 
     metadata: [
-      {name: 'keywords', content: 'nostr, bitcoin, lightning, finance, zaps, wallet, payments, ecash, cashu'},
-      {name: 'description', content: 'Comprehensive documentation for finance applications on the Nostr protocol - payments, wallets, marketplaces, and more.'},
+      {name: 'keywords', content: 'nostr, bitcoin, lightning, taproot, p2tr, finance, zaps, wallet, payments, secp256k1'},
+      {name: 'description', content: 'The complete guide to Bitcoin, Lightning, and Taproot payments on Nostr. Nostr is Taproot native - your keys control your money.'},
       {property: 'og:type', content: 'website'},
+      {property: 'og:site_name', content: 'Nostr Finance'},
     ],
 
     colorMode: {
@@ -57,8 +117,8 @@ const config: Config = {
     },
 
     announcementBar: {
-      id: 'contribute',
-      content: 'Help improve Nostr Finance documentation! <a href="https://github.com/nostrfinance/nostrfinance.github.io">Contribute on GitHub</a>',
+      id: 'taproot-native',
+      content: '⚡ Nostr is <strong>Taproot Native</strong> - Your Nostr keys are Bitcoin keys! <a href="/wallets/taproot">Learn more →</a>',
       backgroundColor: '#F7931A',
       textColor: '#fff',
       isCloseable: true,
@@ -121,6 +181,7 @@ const config: Config = {
             {label: 'Getting Started', to: '/getting-started/introduction'},
             {label: 'Payments', to: '/payments/overview'},
             {label: 'Wallets', to: '/wallets/overview'},
+            {label: 'Taproot', to: '/wallets/taproot'},
           ],
         },
         {

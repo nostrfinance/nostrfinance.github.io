@@ -1,171 +1,580 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+/* Hero Section */
+.hero {
   position: relative;
+  padding: 6rem 0;
   overflow: hidden;
-}
-
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
-}
-
-.buttons {
+  min-height: 80vh;
   display: flex;
   align-items: center;
+}
+
+.heroBackground {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.heroGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+.heroGradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  background: radial-gradient(ellipse at top right, rgba(247, 147, 26, 0.15) 0%, transparent 60%);
+}
+
+.heroGradient::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  height: 60%;
+  background: radial-gradient(ellipse at bottom left, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.heroTag {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: rgba(247, 147, 26, 0.2);
+  border: 1px solid rgba(247, 147, 26, 0.4);
+  border-radius: 100px;
+  color: #F7931A;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.heroHighlight {
+  background: linear-gradient(135deg, #F7931A 0%, #f5af19 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #F7931A 0%, #f5af19 100%);
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(247, 147, 26, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.875rem 2rem;
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  text-decoration: none;
+}
+
+.heroCode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
 }
 
-/* Quick Links Section */
-.quickLinks {
-  padding: 2rem 0;
-  background: #f8f9fa;
-}
-
-.quickLink {
-  display: block;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 8px;
-  text-align: center;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.quickLink:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  text-decoration: none;
-  color: inherit;
-}
-
-.quickLinkIcon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.quickLink h3 {
-  margin: 0 0 0.5rem 0;
+.heroCode code {
   font-size: 1.25rem;
-  color: #333;
+  color: #F7931A;
+  background: rgba(247, 147, 26, 0.1);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(247, 147, 26, 0.2);
 }
 
-.quickLink p {
-  margin: 0;
+.heroCodeLabel {
   font-size: 0.875rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-/* NIPs Section */
-.nipsSection {
-  padding: 4rem 0;
-  background: white;
-}
-
-.sectionTitle {
+/* Section Headers */
+.sectionHeader {
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.sectionHeader h2 {
   font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
-.sectionSubtitle {
-  text-align: center;
+.sectionHeader p {
   color: #666;
-  margin-bottom: 2rem;
   font-size: 1.1rem;
 }
 
-.nipsGrid {
+/* Features Section */
+.features {
+  padding: 5rem 0;
+  background: #fafafa;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.featureCard {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  border-color: #F7931A;
+  text-decoration: none;
+  color: inherit;
+}
+
+.featureIcon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.featureCard h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.featureCard p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.featureArrow {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: #F7931A;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.2s;
+}
+
+.featureCard:hover .featureArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Taproot Section */
+.taproot {
+  padding: 5rem 0;
+  background: white;
+}
+
+.taprootContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.taprootTag {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  background: rgba(247, 147, 26, 0.1);
+  color: #F7931A;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.taprootText h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.taprootText p {
+  color: #444;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.taprootList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.taprootList li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  color: #333;
+}
+
+.taprootCheck {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.taprootLink {
+  color: #F7931A;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.taprootLink:hover {
+  text-decoration: underline;
+}
+
+/* Key Diagram */
+.taprootVisual {
+  display: flex;
   justify-content: center;
+}
+
+.keyDiagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 16px;
+  border: 1px solid #eee;
+}
+
+.keyBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.keyLabel {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.keyBox code {
+  font-size: 1rem;
+  color: #333;
+}
+
+.keyArrow {
+  font-size: 1.5rem;
+  color: #999;
+  margin: 0.5rem 0;
+}
+
+.keyBranch {
+  display: flex;
+  gap: 4rem;
+  margin: 0.5rem 0;
+}
+
+.keyArrowLeft,
+.keyArrowRight {
+  font-size: 1.5rem;
+  color: #999;
+}
+
+.keyOutputs {
+  display: flex;
   gap: 1rem;
+}
+
+.keyOutput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid;
+}
+
+.keyOutput:first-child {
+  border-color: #8B5CF6;
+}
+
+.keyOutput:first-child code {
+  color: #8B5CF6;
+}
+
+.keyOutput:last-child {
+  border-color: #F7931A;
+}
+
+.keyOutput:last-child code {
+  color: #F7931A;
+}
+
+/* NIPs Section */
+.nips {
+  padding: 5rem 0;
+  background: #fafafa;
+}
+
+.nipsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .nipCard {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 1.5rem 2rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 8px;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #eee;
   text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-  min-width: 160px;
+  transition: all 0.2s;
 }
 
 .nipCard:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(247, 147, 26, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: #F7931A;
   text-decoration: none;
 }
 
 .nipNumber {
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1.25rem;
   color: #F7931A;
+  margin-bottom: 0.25rem;
 }
 
 .nipTitle {
-  font-size: 0.875rem;
+  font-weight: 600;
   color: #333;
-  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.nipDesc {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.nipsLink {
+  text-align: center;
+}
+
+.nipsLink a {
+  color: #F7931A;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nipsLink a:hover {
+  text-decoration: underline;
 }
 
 /* Standards Section */
-.standardsSection {
-  padding: 4rem 0;
-  background: #f8f9fa;
+.standards {
+  padding: 5rem 0;
+  background: white;
+}
+
+.standardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
 }
 
 .standardCard {
-  background: white;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 100%;
+  background: #f8f9fa;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+}
+
+.standardCard:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: inherit;
 }
 
 .standardCard h3 {
-  margin-top: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
   color: #333;
 }
 
 .standardCard p {
   color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* CTA Section */
+.cta {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+}
+
+.ctaContent {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ctaContent h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
   margin-bottom: 1rem;
 }
 
-.standardCard a {
-  font-weight: 500;
+.ctaContent p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
 }
 
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-  .quickLinks .row {
-    gap: 1rem;
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 996px) {
+  .heroTitle {
+    font-size: 2.5rem;
   }
 
-  .quickLink {
-    margin-bottom: 1rem;
+  .featuresGrid,
+  .nipsGrid,
+  .standardsGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .nipCard {
-    min-width: 140px;
-    padding: 1rem 1.5rem;
+  .taprootContent {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 4rem 0;
+    min-height: auto;
   }
 
-  .standardCard {
-    margin-bottom: 1rem;
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .featuresGrid,
+  .nipsGrid,
+  .standardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .keyOutputs {
+    flex-direction: column;
+  }
+
+  .keyBranch {
+    gap: 2rem;
   }
 }

@@ -53,13 +53,13 @@ Nostr Wallet Connect (NWC) provides a standardized way to connect Lightning wall
 - Budgets and spending limits
 - Cross-platform compatibility
 
-### 3. eCash Integration (Cashu)
+### 3. Taproot Native
 
-Privacy-preserving digital cash built on Bitcoin:
-- Instant transfers
-- Enhanced privacy
-- Low-cost micropayments
-- NutZaps for private tipping
+Nostr and Bitcoin Taproot share the same cryptography (secp256k1):
+- Your npub can derive a P2TR Bitcoin address
+- Direct on-chain payments without bridges
+- Unified identity and value transfer
+- One key for communication and money
 
 ### 4. Decentralized Marketplaces
 
@@ -91,9 +91,8 @@ This documentation covers several important specifications:
 |----------|---------|
 | [NIP-47](/nips/nip-47) | Nostr Wallet Connect |
 | [NIP-57](/nips/nip-57) | Lightning Zaps |
-| [NIP-60](/nips/nip-60) | Cashu Wallets |
-| [NIP-61](/nips/nip-61) | NutZaps |
 | [NIP-75](/nips/nip-75) | Zap Goals (Crowdfunding) |
+| [Taproot](/wallets/taproot) | Native Bitcoin integration |
 | [Web Ledgers](/standards/webledgers) | Universal balance mapping |
 | [Blocktrails](/standards/blocktrails) | Bitcoin state anchoring |
 | [DID:Nostr](/identity/did-nostr) | Decentralized identifiers |

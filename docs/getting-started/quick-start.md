@@ -118,12 +118,12 @@ Now that you're set up, explore more:
 
 ### Learn About Payments
 - [Zaps in Detail](/payments/zaps) - How Lightning zaps work
-- [NutZaps](/payments/nutzaps) - Private eCash payments
+- [On-Chain Payments](/payments/onchain) - Bitcoin P2TR payments
 - [Subscriptions](/payments/subscriptions) - Recurring payments
 
 ### Explore Wallets
 - [Nostr Wallet Connect](/wallets/nwc) - The NWC protocol
-- [Cashu eCash](/wallets/cashu) - Private digital cash
+- [Taproot Wallets](/wallets/taproot) - Native Bitcoin integration
 
 ### Advanced Features
 - [Marketplaces](/marketplaces/overview) - Buy and sell on Nostr
