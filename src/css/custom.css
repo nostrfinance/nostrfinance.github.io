@@ -1,0 +1,277 @@
+/**
+ * Nostr Finance - Light Theme with Bitcoin/Finance Branding
+ */
+
+:root {
+  /* Bitcoin Orange as primary */
+  --ifm-color-primary: #F7931A;
+  --ifm-color-primary-dark: #DE8417;
+  --ifm-color-primary-darker: #D27C15;
+  --ifm-color-primary-darkest: #AD6611;
+  --ifm-color-primary-light: #F9A23D;
+  --ifm-color-primary-lighter: #FAAB4F;
+  --ifm-color-primary-lightest: #FCBE75;
+
+  /* Code styling */
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(247, 147, 26, 0.1);
+
+  /* Link colors */
+  --ifm-link-color: #F7931A;
+  --ifm-link-hover-color: #DE8417;
+
+  /* Navbar - clean white */
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-navbar-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+
+  /* Footer - dark elegant */
+  --ifm-footer-background-color: #1a1a2e;
+
+  /* Typography */
+  --ifm-font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ifm-heading-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Content */
+  --ifm-background-color: #fafafa;
+  --ifm-background-surface-color: #ffffff;
+
+  /* Borders */
+  --ifm-global-border-width: 1px;
+  --ifm-global-radius: 8px;
+}
+
+/* Dark mode */
+[data-theme='dark'] {
+  --ifm-color-primary: #F7931A;
+  --ifm-color-primary-dark: #DE8417;
+  --ifm-color-primary-darker: #D27C15;
+  --ifm-color-primary-darkest: #AD6611;
+  --ifm-color-primary-light: #F9A23D;
+  --ifm-color-primary-lighter: #FAAB4F;
+  --ifm-color-primary-lightest: #FCBE75;
+
+  --docusaurus-highlighted-code-line-bg: rgba(247, 147, 26, 0.2);
+  --ifm-link-color: #F9A23D;
+  --ifm-navbar-background-color: #1a1a2e;
+  --ifm-footer-background-color: #0d0d1a;
+  --ifm-background-color: #16162a;
+  --ifm-background-surface-color: #1a1a2e;
+}
+
+/* Hero gradient - Bitcoin orange to purple (Nostr) */
+.hero--primary {
+  background: linear-gradient(135deg, #F7931A 0%, #8B5CF6 100%);
+  color: #ffffff;
+}
+
+.hero--primary .hero__title {
+  color: #ffffff;
+}
+
+.hero--primary .hero__subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Navbar styling */
+.navbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .navbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.navbar__title {
+  font-weight: 700;
+}
+
+/* Code blocks */
+.prism-code {
+  border-radius: 8px;
+}
+
+pre {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] pre {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Tables */
+table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th {
+  background-color: rgba(247, 147, 26, 0.1);
+  font-weight: 600;
+}
+
+[data-theme='dark'] table th {
+  background-color: rgba(247, 147, 26, 0.15);
+}
+
+table td, table th {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 12px;
+}
+
+[data-theme='dark'] table td,
+[data-theme='dark'] table th {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Cards and boxes */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Admonitions */
+.admonition {
+  border-radius: 8px;
+}
+
+/* Sidebar */
+.menu__link {
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.menu__link--active {
+  background-color: rgba(247, 147, 26, 0.1);
+  color: var(--ifm-color-primary);
+}
+
+/* Buttons */
+.button--primary {
+  background-color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+}
+
+.button--primary:hover {
+  background-color: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+}
+
+.button--secondary {
+  color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+}
+
+/* TOC */
+.table-of-contents__link--active {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Footer links */
+.footer__link-item:hover {
+  color: var(--ifm-color-primary);
+}
+
+/* Feature cards on homepage */
+.feature-card {
+  background: var(--ifm-background-surface-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Announcement bar */
+.announcement-bar {
+  font-weight: 500;
+}
+
+/* Search */
+.DocSearch-Button {
+  border-radius: 8px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs__link {
+  color: var(--ifm-color-primary);
+}
+
+/* Mobile responsive */
+@media (max-width: 996px) {
+  .hero--primary {
+    padding: 2rem 1rem;
+  }
+
+  .hero__title {
+    font-size: 2rem;
+  }
+}
+
+/* Custom utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+/* NIP badge styling */
+.nip-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #F7931A, #DE8417);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+/* Status badges */
+.status-stable {
+  background-color: #10B981;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.status-draft {
+  background-color: #F59E0B;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.status-experimental {
+  background-color: #8B5CF6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+}

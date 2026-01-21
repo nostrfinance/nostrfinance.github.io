@@ -1,0 +1,36 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 4rem 0;
+  width: 100%;
+  background: white;
+}
+
+.featuresTitle {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.featureSvg {
+  height: 64px;
+  width: 64px;
+  color: #F7931A;
+  margin-bottom: 1rem;
+}
+
+.features h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.features p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.features .row {
+  row-gap: 2rem;
+}

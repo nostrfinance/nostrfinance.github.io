@@ -1,0 +1,171 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Quick Links Section */
+.quickLinks {
+  padding: 2rem 0;
+  background: #f8f9fa;
+}
+
+.quickLink {
+  display: block;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quickLink:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+  color: inherit;
+}
+
+.quickLinkIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.quickLink h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.quickLink p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* NIPs Section */
+.nipsSection {
+  padding: 4rem 0;
+  background: white;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.sectionSubtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.nipsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nipCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 160px;
+}
+
+.nipCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(247, 147, 26, 0.2);
+  text-decoration: none;
+}
+
+.nipNumber {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #F7931A;
+}
+
+.nipTitle {
+  font-size: 0.875rem;
+  color: #333;
+  margin-top: 0.25rem;
+}
+
+/* Standards Section */
+.standardsSection {
+  padding: 4rem 0;
+  background: #f8f9fa;
+}
+
+.standardCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.standardCard h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.standardCard p {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.standardCard a {
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .quickLinks .row {
+    gap: 1rem;
+  }
+
+  .quickLink {
+    margin-bottom: 1rem;
+  }
+
+  .nipCard {
+    min-width: 140px;
+    padding: 1rem 1.5rem;
+  }
+
+  .standardCard {
+    margin-bottom: 1rem;
+  }
+}
