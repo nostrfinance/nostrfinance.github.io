@@ -155,6 +155,16 @@ Community marketplace:
 - Fiat pricing option
 - Stall management
 
+### Mostro
+
+Non-custodial P2P Bitcoin exchange:
+- Bitcoin↔fiat trading on Lightning + Nostr
+- Hold invoice escrow (non-custodial)
+- NIP-59 encrypted commands, kind 38383 order book
+- Built-in dispute resolution with solvers
+- Progressive 5-star reputation system
+- [mostro.network](https://mostro.network)
+
 ## Getting Started
 
 ### As a Buyer
