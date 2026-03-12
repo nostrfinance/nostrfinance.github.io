@@ -47,6 +47,33 @@ Features:
 - Fiat pricing option
 - Multiple payment methods
 
+### Mostro
+
+**Non-custodial P2P Bitcoin↔fiat exchange on Lightning + Nostr**
+
+- **Website:** [mostro.network](https://mostro.network)
+- **GitHub:** [MostroP2P/mostro](https://github.com/MostroP2P/mostro)
+
+Features:
+- P2P exchange: buy/sell Bitcoin for any fiat currency
+- Lightning hold invoices for non-custodial escrow
+- Nostr kind 38383 for public order book
+- NIP-59 encrypted commands between clients and daemon
+- NIP-44 peer-to-peer chat once trade is active
+- Built-in dispute resolution with designated solvers
+- Progressive 5-star reputation system
+- Multiple clients: mobile (Dart), CLI, TUI
+
+Architecture:
+```
+1. Seller creates order → Mostrod publishes kind 38383 (pending)
+2. Buyer takes order → Mostrod requests buyer's LN invoice
+3. Seller pays hold invoice → funds locked in seller's wallet
+4. Parties communicate via NIP-44 encrypted chat
+5. Buyer sends fiat → seller confirms → Mostrod settles
+6. Hold invoice settled → buyer's invoice paid → success
+```
+
 ## Merchant Tools
 
 ### Stall Creation
