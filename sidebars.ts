@@ -20,8 +20,10 @@ const sidebars: SidebarsConfig = {
       items: [
         'payments/overview',
         'payments/zaps',
+        'payments/onchain-zaps',
         'payments/lightning-network',
         'payments/onchain',
+        'payments/p2p-trading',
         'payments/subscriptions',
         'payments/crowdfunding',
       ],
@@ -87,6 +89,7 @@ const sidebars: SidebarsConfig = {
         'nips/overview',
         'nips/nip-47',
         'nips/nip-57',
+        'nips/nip-69',
         'nips/nip-75',
       ],
     },
