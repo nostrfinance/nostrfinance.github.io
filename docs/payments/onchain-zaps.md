@@ -344,7 +344,7 @@ function OnChainZapButton({ recipientNpub, amountSats }) {
 | Complexity | High (liquidity mgmt) | Low (just Bitcoin) |
 | Native to Nostr | No (separate system) | **Yes** (same keys) |
 
-## Testing on Testnet/Signet
+## Testing on Testnet
 
 On-chain zaps are perfect for testnet experimentation - same cryptography, zero risk.
 
@@ -365,27 +365,35 @@ import { payments, networks } from 'bitcoinjs-lib';
 function npubToTestnetP2TR(npubHex) {
   const { address } = payments.p2tr({
     internalPubkey: Buffer.from(npubHex, 'hex'),
-    network: networks.testnet  // or networks.regtest
+    network: networks.testnet  // tb1p... address
   });
-  return address; // tb1p... (testnet) or bcrt1p... (regtest)
+  return address;
 }
 ```
 
-### Testnet Faucets
+### Testnet4 Faucets
 
-- [coinfaucet.eu](https://coinfaucet.eu/en/btc-testnet/) - Testnet3
-- [signetfaucet.com](https://signetfaucet.com/) - Signet
-- [bitcoinfaucet.uo1.net](https://bitcoinfaucet.uo1.net/) - Testnet3
+**Testnet4** is the current recommended testnet - more stable than testnet3, actively maintained.
 
-### Signet vs Testnet
+- [mempool.space/testnet4/faucet](https://mempool.space/testnet4/faucet) - Mempool faucet
+- [coinfaucet.eu](https://coinfaucet.eu/en/btc-testnet4/) - Coinfaucet
+- [faucet.testnet4.dev](https://faucet.testnet4.dev/) - Testnet4.dev
+- [testnet4.info](https://testnet4.info/) - Testnet4.info
 
-| Network | Stability | Reorgs | Best For |
-|---------|-----------|--------|----------|
-| Testnet3 | Variable | Frequent | Quick tests |
-| Signet | Stable | Rare | Realistic testing |
-| Regtest | Local | Controlled | Development |
+See [awesome-testnet4](https://github.com/testnet4/awesome-testnet4) for more resources.
 
-For on-chain zap development, **Signet** is recommended - stable block times, realistic fee market.
+### Testnet3 (Legacy)
+
+Still works, but testnet4 is preferred:
+- [coinfaucet.eu/btc-testnet](https://coinfaucet.eu/en/btc-testnet/) - Testnet3
+
+### Which Network?
+
+| Network | Status | Best For |
+|---------|--------|----------|
+| **Testnet4** | Current | All testing (recommended) |
+| Testnet3 | Legacy | Existing integrations |
+| Regtest | Local | Development |
 
 ## Proof of Publication
 
