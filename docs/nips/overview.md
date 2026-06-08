@@ -29,6 +29,7 @@ Draft → Discussion → Implementation → Adoption
 |-----|------|---------|--------|
 | [NIP-47](/nips/nip-47) | Nostr Wallet Connect | Wallet-app communication | Merged |
 | [NIP-57](/nips/nip-57) | Lightning Zaps | Tipping via Lightning | Merged |
+| [NIP-69](/nips/nip-69) | P2P Order Events | P2P trading orders | Merged |
 | [NIP-75](/nips/nip-75) | Zap Goals | Crowdfunding | Merged |
 
 ### Commerce NIPs
@@ -58,6 +59,7 @@ Draft → Discussion → Implementation → Adoption
 | 9041 | Zap Goal | 75 |
 | 23194 | NWC Request | 47 |
 | 23195 | NWC Response | 47 |
+| 38383 | P2P Order | 69 |
 
 ### Commerce Events
 
@@ -199,6 +201,7 @@ While not a formal NIP, the cryptographic alignment between Nostr and Bitcoin Ta
 
 - [NIP-47: Nostr Wallet Connect](/nips/nip-47)
 - [NIP-57: Lightning Zaps](/nips/nip-57)
+- [NIP-69: P2P Order Events](/nips/nip-69)
 - [NIP-75: Zap Goals](/nips/nip-75)
 
 ---
