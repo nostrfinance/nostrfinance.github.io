@@ -335,7 +335,7 @@ function OnChainZapButton({ recipientNpub, amountSats }) {
 | Feature | Lightning (NIP-57) | On-Chain |
 |---------|-------------------|----------|
 | Speed | Instant | 10-60 min confirmation |
-| Fees | ~1 sat (but channel costs) | Market rate (often <$1) |
+| Fees | ~1 sat (but channel costs) | Market rate (often under $1) |
 | Privacy | Route-based | Configurable (tweaks/silent) |
 | Setup | LNURL + wallet + channels | **None** (npub = address) |
 | Max amount | Channel limited | **Unlimited** |
