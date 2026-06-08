@@ -340,6 +340,133 @@ function OnChainZapButton({ recipientNpub, amountSats }) {
 | Offline receive | No | Yes |
 | Proof | Zap receipt (kind 9735) | On-chain transaction |
 
+## Testing on Testnet/Signet
+
+On-chain zaps are perfect for testnet experimentation - same cryptography, zero risk.
+
+### Why Use Testnet
+
+| Benefit | Description |
+|---------|-------------|
+| **Free coins** | Faucets provide test sats |
+| **Same code paths** | Identical derivation logic |
+| **Safe iteration** | Mistakes cost nothing |
+| **Client testing** | Verify UX before mainnet |
+
+### Deriving Testnet Addresses
+
+```javascript
+import { payments, networks } from 'bitcoinjs-lib';
+
+function npubToTestnetP2TR(npubHex) {
+  const { address } = payments.p2tr({
+    internalPubkey: Buffer.from(npubHex, 'hex'),
+    network: networks.testnet  // or networks.regtest
+  });
+  return address; // tb1p... (testnet) or bcrt1p... (regtest)
+}
+```
+
+### Testnet Faucets
+
+- [coinfaucet.eu](https://coinfaucet.eu/en/btc-testnet/) - Testnet3
+- [signetfaucet.com](https://signetfaucet.com/) - Signet
+- [bitcoinfaucet.uo1.net](https://bitcoinfaucet.uo1.net/) - Testnet3
+
+### Signet vs Testnet
+
+| Network | Stability | Reorgs | Best For |
+|---------|-----------|--------|----------|
+| Testnet3 | Variable | Frequent | Quick tests |
+| Signet | Stable | Rare | Realistic testing |
+| Regtest | Local | Controlled | Development |
+
+For on-chain zap development, **Signet** is recommended - stable block times, realistic fee market.
+
+## Proof of Publication
+
+An underappreciated property: on-chain zaps create **immutable, timestamped proof** that a payment was made to a specific Nostr identity.
+
+### What You Get
+
+```mermaid
+flowchart LR
+    tx["Bitcoin Transaction"]
+    tx --> block["Block #850,000<br/>Timestamp: 2026-06-08"]
+    tx --> output["Output: bc1pabc..."]
+    output --> npub["Provably linked to<br/>npub1abc..."]
+```
+
+The blockchain permanently records:
+- **When**: Block timestamp (unforgeable)
+- **How much**: Exact satoshi amount
+- **To whom**: P2TR address → npub mapping is deterministic
+
+### Use Cases for Proof of Publication
+
+| Use Case | How It Helps |
+|----------|--------------|
+| **Provable donations** | "I donated X sats to @developer on date Y" |
+| **Grant accountability** | Public record of fund distribution |
+| **Patronage history** | Verifiable support timeline |
+| **Contract payments** | Timestamped proof of payment |
+| **Dispute resolution** | Immutable payment evidence |
+
+### Verification
+
+Anyone can verify a claimed on-chain zap:
+
+```javascript
+function verifyOnChainZap(txid, npub, expectedAmount) {
+  // 1. Fetch transaction from any block explorer
+  const tx = await fetchTransaction(txid);
+  
+  // 2. Derive expected address from npub
+  const expectedAddress = npubToP2TR(npub);
+  
+  // 3. Check outputs
+  const matchingOutput = tx.outputs.find(
+    o => o.address === expectedAddress && o.value >= expectedAmount
+  );
+  
+  return {
+    verified: !!matchingOutput,
+    blockHeight: tx.blockHeight,
+    timestamp: tx.blockTime,
+    amount: matchingOutput?.value
+  };
+}
+```
+
+### Contrast with Lightning
+
+| Aspect | Lightning Zap | On-Chain Zap |
+|--------|--------------|--------------|
+| Public proof | Zap receipt (kind 9735) | Blockchain tx |
+| Immutability | Relay-dependent | Bitcoin-secured |
+| Timestamp | Event created_at | Block timestamp |
+| Verifiable by | Nostr users | Anyone with internet |
+| Permanence | Relay retention | Forever |
+
+Lightning zap receipts are Nostr events - they can be lost if relays purge data. On-chain transactions are permanent.
+
+### Combining Both
+
+For important payments, do both:
+1. **On-chain zap** → Permanent blockchain proof
+2. **Nostr announcement** → Social visibility
+
+```json
+{
+  "kind": 1,
+  "content": "Just supported @developer with an on-chain zap! 🔗",
+  "tags": [
+    ["p", "developer_npub"],
+    ["r", "https://mempool.space/tx/abc123..."]
+  ]
+}
+```
+
 ## Best Practices
 
 ### For Senders
