@@ -277,6 +277,12 @@ async function getFeeEstimate() {
 - **Fee transparency** - Show estimated fees
 - **Confirmation tracking** - Display confirmation count
 
+## See Also
+
+- [On-Chain Zaps](/payments/onchain-zaps) - Direct tips to npubs
+- [Taproot Wallets](/wallets/taproot) - Key derivation deep-dive
+- [P2P Trading](/payments/p2p-trading) - Fiat on/off ramps
+
 ## Resources
 
 - [Mempool.space](https://mempool.space) - Block explorer
@@ -286,6 +292,6 @@ async function getFeeEstimate() {
 
 ---
 
-:::info Taproot Advantage
-Pay-to-Taproot (P2TR) addresses starting with `bc1p` offer the best privacy and lowest fees for on-chain transactions. Since Nostr keys are Taproot-compatible, your identity can natively hold Bitcoin.
+:::info Taproot Native
+Your Nostr identity is a Bitcoin wallet. No bridges, no wrapping, no intermediaries - just native Bitcoin on both layers. On-chain is the simplest path to value transfer on Nostr.
 :::

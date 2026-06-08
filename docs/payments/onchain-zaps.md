@@ -10,16 +10,18 @@ On-chain zaps enable direct Bitcoin transfers to any Nostr user without Lightnin
 
 ## Why On-Chain Zaps Matter
 
-Lightning zaps (NIP-57) revolutionized Nostr payments, but they have friction:
+On-chain zaps embrace what makes Nostr special: **your npub is already a Bitcoin address**. No intermediaries, no setup, no permission needed.
 
-| Challenge | Lightning Zaps | On-Chain Zaps |
-|-----------|---------------|---------------|
-| Recipient setup | Requires LNURL/LN address | None - npub is enough |
-| Sender setup | Needs funded channels | Any Bitcoin wallet |
-| Availability | Recipient must be online | Funds wait on-chain |
-| Amount limits | Channel capacity | No upper limit |
+| Aspect | Lightning Zaps | On-Chain Zaps |
+|--------|---------------|---------------|
+| Recipient setup | LNURL, Lightning address, wallet config | **None** - npub is enough |
+| Sender setup | Funded channels, liquidity management | Any Bitcoin wallet |
+| Availability | Recipient online, channels open | Funds wait on-chain |
+| Amount limits | Channel capacity constraints | Unlimited |
+| Permanence | Relay-dependent receipts | **Blockchain-secured** |
+| Privacy | Route-based (good) | Configurable (raw → tweaked → silent) |
 
-**The key insight**: Your npub already IS a Bitcoin address. No setup required.
+Lightning has its place for high-frequency micropayments, but on-chain is the **native** path - same cryptography, no layers between.
 
 ## How It Works
 
@@ -121,20 +123,20 @@ On-chain zaps create a permanent, public link between your npub and Bitcoin tran
 | Public tips (attribution wanted) | Raw npub → P2TR |
 | Moderate privacy | Tweaked keys |
 | High privacy | Silent Payments + NIP-17 |
-| Maximum privacy | Lightning zaps |
 
-### When On-Chain Makes Sense
+### When On-Chain Shines
 
-- Large tips where Lightning capacity is insufficient
-- Recipients without Lightning setup
-- Long-term savings/accumulation
-- When you don't mind public attribution (or use tweaks)
+- **Any amount** - No channel capacity limits
+- **No recipient setup** - Works for any npub, even if they've never configured payments
+- **Permanent proof** - Blockchain receipt, not relay-dependent
+- **True self-custody** - No intermediary nodes
+- **Offline receiving** - Funds arrive whether recipient is online or not
 
-### When to Use Lightning Instead
+### When Lightning May Fit
 
-- Privacy-sensitive payments
-- Frequent small tips
-- When recipient has LNURL configured
+- Sub-second settlement needed
+- Very high frequency (dozens per day)
+- Recipient has reliable Lightning infrastructure
 
 ## Simple Tweaks: A Privacy Middle Ground
 
@@ -333,12 +335,14 @@ function OnChainZapButton({ recipientNpub, amountSats }) {
 | Feature | Lightning (NIP-57) | On-Chain |
 |---------|-------------------|----------|
 | Speed | Instant | 10-60 min confirmation |
-| Fees | ~1 sat | Variable (market rate) |
-| Privacy | Route-based | Public ledger |
-| Setup | LNURL required | None (npub = address) |
-| Max amount | Channel limited | Unlimited |
-| Offline receive | No | Yes |
-| Proof | Zap receipt (kind 9735) | On-chain transaction |
+| Fees | ~1 sat (but channel costs) | Market rate (often <$1) |
+| Privacy | Route-based | Configurable (tweaks/silent) |
+| Setup | LNURL + wallet + channels | **None** (npub = address) |
+| Max amount | Channel limited | **Unlimited** |
+| Offline receive | No (must be online) | **Yes** |
+| Proof | Relay-dependent receipt | **Blockchain-permanent** |
+| Complexity | High (liquidity mgmt) | Low (just Bitcoin) |
+| Native to Nostr | No (separate system) | **Yes** (same keys) |
 
 ## Testing on Testnet/Signet
 
@@ -485,13 +489,13 @@ For important payments, do both:
 
 ## See Also
 
+- [On-Chain Infrastructure](/payments/onchain) - PSBT, multisig, escrow
 - [Taproot Wallets](/wallets/taproot) - Understanding P2TR
-- [Lightning Zaps](/payments/zaps) - NIP-57 Lightning payments
-- [On-Chain Payments](/payments/onchain) - General on-chain guide
+- [P2P Trading](/payments/p2p-trading) - Fiat on/off ramps
 - [NIP-17](https://github.com/nostr-protocol/nips/blob/master/17.md) - Private DMs for notifications
 
 ---
 
-:::tip The Simplest Path
-On-chain zaps are the most direct expression of "Nostr is Taproot Native" - your identity IS your wallet. While Lightning remains best for most zaps, on-chain opens the door to anyone with Bitcoin, no setup required.
+:::tip The Native Path
+On-chain zaps are the purest expression of "Nostr is Taproot Native" - your identity IS your wallet. No channels to manage, no liquidity to worry about, no LNURL to configure. Just Bitcoin, the way it was designed.
 :::
