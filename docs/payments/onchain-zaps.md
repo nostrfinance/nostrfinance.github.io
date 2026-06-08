@@ -640,6 +640,133 @@ For now, most users keep nsec hot for Nostr events (low value) and use hardware 
 
 For small on-chain zaps, spending directly with nsec (via a good wallet) is acceptable. Hardware becomes essential as amounts grow.
 
+## Browser Extension Signing
+
+Browser extensions (Alby, nos2x, Nostore) manage your nsec and sign Nostr events. Could they sign Bitcoin transactions too?
+
+### NIP-07: What Extensions Offer Today
+
+```javascript
+// Standard NIP-07 methods
+window.nostr.getPublicKey()           // Get npub
+window.nostr.signEvent(event)         // Sign Nostr event
+window.nostr.nip04.encrypt(pubkey, plaintext)
+window.nostr.nip04.decrypt(pubkey, ciphertext)
+
+// Less common
+window.nostr.signSchnorr(message)     // Raw Schnorr signature
+```
+
+| Method | Purpose | Bitcoin Use? |
+|--------|---------|--------------|
+| `signEvent` | Nostr events | No |
+| `signSchnorr` | Raw message | Theoretically yes |
+| PSBT signing | Not in spec | No |
+
+### The signSchnorr Danger
+
+`signSchnorr(message)` signs arbitrary bytes. In theory, you could:
+
+```javascript
+// DON'T DO THIS - example only
+const txHash = bitcoin.Transaction.hashForSignature(tx, 0, prevout);
+const sig = await window.nostr.signSchnorr(txHash);
+```
+
+**Why this is dangerous:**
+
+1. **No context** - Extension shows hex blob, not "Send 0.5 BTC to bc1p..."
+2. **No validation** - User can't verify what they're signing
+3. **Phishing magnet** - Malicious site shows "Sign this message" but it's a tx
+
+:::danger Never Sign Blind
+If a site asks you to `signSchnorr` a hex string for "verification" or "proof of ownership," it could be a Bitcoin transaction draining your funds. Legitimate apps don't need raw Schnorr signatures.
+:::
+
+### What Safe Extension Signing Would Look Like
+
+A proper Bitcoin signing flow needs:
+
+```javascript
+// Hypothetical future NIP-07 extension
+window.nostr.bitcoin.signPSBT(psbtBase64, {
+  // Extension parses PSBT and shows:
+  // - Inputs (your UTXOs being spent)
+  // - Outputs (destinations and amounts)
+  // - Fee
+  // - Change address
+})
+```
+
+The extension would display a human-readable summary before signing:
+
+```
+┌─────────────────────────────────────┐
+│  Sign Bitcoin Transaction?          │
+├─────────────────────────────────────┤
+│  Sending: 0.001 BTC                 │
+│  To: bc1pxyz...                     │
+│  Fee: 450 sats                      │
+│  Change: bc1pabc... (yours)         │
+├─────────────────────────────────────┤
+│  [Reject]              [Sign]       │
+└─────────────────────────────────────┘
+```
+
+### Current State of Extension Bitcoin Support
+
+| Extension | Lightning | On-Chain | PSBT |
+|-----------|-----------|----------|------|
+| **Alby** | Yes (NWC) | Experimental | No |
+| **nos2x** | No | No | No |
+| **Nostore** | No | No | No |
+| **Flamingo** | No | No | No |
+
+**Alby** is exploring WebBTC integration, but it's early. For now, extensions are Lightning-focused.
+
+### Extension vs Hardware vs NWC
+
+| Method | Security | UX | Best For |
+|--------|----------|-----|----------|
+| **Extension (signSchnorr)** | Low | Easy | Never for Bitcoin |
+| **Extension (future PSBT)** | Medium | Easy | Small amounts, when available |
+| **Hardware wallet** | High | More steps | Serious amounts |
+| **NWC (Lightning)** | Medium | Easy | Zaps, micropayments |
+
+### Recommendations
+
+**For Lightning zaps**: Use extensions with NWC - this is mature and safe.
+
+**For on-chain spending**: 
+- Small amounts → Desktop wallet (Sparrow) with your nsec
+- Larger amounts → Hardware wallet + PSBT
+- Extensions → Wait for proper PSBT support
+
+**Never**:
+- Sign raw hex via `signSchnorr` from websites
+- Trust "verification" requests that need signatures
+- Use experimental Bitcoin features for real funds
+
+### Future: NIP for PSBT Signing
+
+A future NIP could standardize:
+
+```javascript
+// Proposed extension method
+window.nostr.bitcoin = {
+  // Get P2TR address derived from npub
+  getAddress(derivationPath),
+  
+  // Sign PSBT with proper UI
+  signPSBT(psbtBase64, options),
+  
+  // Get xpub for watch-only setup
+  getXPub(derivationPath)
+}
+```
+
+This would bridge Nostr extensions to on-chain Bitcoin safely. Until then, use dedicated Bitcoin wallets for on-chain.
+
 ## Best Practices
 
 ### For Senders
