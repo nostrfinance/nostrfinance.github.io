@@ -82,6 +82,7 @@ const sidebars: SidebarsConfig = {
         'cryptography/schnorr-security',
         'cryptography/tweaks',
         'cryptography/mnemonics',
+        'cryptography/silent-payments',
       ],
     },
     {
