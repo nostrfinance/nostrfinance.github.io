@@ -74,6 +74,18 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Cryptography',
+      collapsed: true,
+      items: [
+        'cryptography/overview',
+        'cryptography/x-only-pubkeys',
+        'cryptography/schnorr-security',
+        'cryptography/tweaks',
+        'cryptography/mnemonics',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Standards & Specs',
       collapsed: true,
       items: [

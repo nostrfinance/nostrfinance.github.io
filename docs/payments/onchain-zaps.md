@@ -495,10 +495,12 @@ For important payments, do both:
 3. **Set up Lightning too** - Offer both options
 4. **Use separate keys** - Consider derived keys for large holdings
 
-## See Also
+## Further Reading
 
+- [On-Chain Zaps in Ditto](https://soapbox.pub/blog/onchain-zaps-in-ditto) - The original Soapbox article that started it all
 - [On-Chain Infrastructure](/payments/onchain) - PSBT, multisig, escrow
 - [Taproot Wallets](/wallets/taproot) - Understanding P2TR
+- [Key Tweaks](/cryptography/tweaks) - Privacy via derived keys
 - [P2P Trading](/payments/p2p-trading) - Fiat on/off ramps
 - [NIP-17](https://github.com/nostr-protocol/nips/blob/master/17.md) - Private DMs for notifications
 
