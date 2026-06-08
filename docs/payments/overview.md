@@ -22,6 +22,7 @@ Same key, different encoding
 | Method | Speed | Best For | Learn More |
 |--------|-------|----------|------------|
 | [Lightning Zaps](/payments/zaps) | Instant | Tipping, social signals | NIP-57 |
+| [On-Chain Zaps](/payments/onchain-zaps) | 10-60 min | Tips without LN setup | Taproot |
 | [Lightning Direct](/payments/lightning-network) | Instant | Larger payments | BOLT11 |
 | [On-Chain P2TR](/payments/onchain) | 10-60 min | Large amounts, savings | Taproot |
 | [P2P Trading](/payments/p2p-trading) | Varies | Fiat on/off ramps | NIP-69 |
@@ -174,6 +175,7 @@ Add P2TR address derived from your npub:
 ## Further Reading
 
 - [Zaps Deep Dive](/payments/zaps)
+- [On-Chain Zaps](/payments/onchain-zaps)
 - [Lightning Network](/payments/lightning-network)
 - [On-Chain Payments](/payments/onchain)
 - [P2P Trading](/payments/p2p-trading)
