@@ -104,10 +104,19 @@ The key insight: **aggregators don't handle trades** - they just surface orders.
 
 ### p2psats.app
 
-[p2psats](https://p2psats.app) aggregates NIP-69 orders and provides alerts:
+[p2psats](https://p2psats.app) aggregates NIP-69 orders from four platform relays:
+
+**Relays:**
+- `wss://relay.mostro.network`
+- `wss://relay.lnp2pbot.com`
+- `wss://nostr.robosats.org`
+- `wss://relay.peachbitcoin.com`
 
 **Features:**
-- Fiat-currency-scoped order views
+- Unified order book across ~140 fiat currencies
+- Depth charts with Yadio reference pricing
+- Spread/mid-price analysis
+- Cross-platform arbitrage detection
 - Custom alerts (side/currency/amount/premium)
 - Notifications via email or NIP-17 DMs
 - NIP-07 or magic link authentication
@@ -146,26 +155,34 @@ pool.subscribeMany(relays, [filter], {
 ### Mostro
 
 Nostr-native P2P exchange:
-- Built entirely on Nostr
-- Lightning escrow
-- Reputation system
+- Built entirely on Nostr (NIP-59 GiftWrap for privacy)
+- Lightning hold invoice escrow
+- Built-in dispute resolution
 - [mostro.network](https://mostro.network)
 
-### Robosats
+### RoboSats
 
 Privacy-focused P2P:
-- Tor-based
-- Lightning settlements
-- Publishing to NIP-69
+- Tor-based with federation
+- Maintains [robosats-nostr-sync](https://github.com/RoboSats/robosats-nostr-sync) scraper
+- Also aggregates HodlHodl and Peach orders to Nostr
 - [robosats.com](https://robosats.com)
 
-### lnp2pbot
+### lnp2pBot
 
 Telegram-based trading:
-- Bot-mediated trades
-- Lightning escrow
-- NIP-69 order publication
-- [@lnp2pBot](https://t.me/lnp2pBot)
+- Bot-mediated via @lnp2pBot
+- Lightning hold invoice escrow
+- No registration or KYC
+- [lnp2pbot.com](https://lnp2pbot.com)
+
+### Peach Bitcoin
+
+Mobile P2P app:
+- iOS and Android native
+- No KYC required
+- GroupHug batched transactions
+- [peachbitcoin.com](https://peachbitcoin.com)
 
 ## Trust Model
 

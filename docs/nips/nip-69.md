@@ -14,8 +14,8 @@ description: Peer-to-peer order events specification
 |--------|--------|
 | **Kind** | 38383 |
 | **Purpose** | P2P trade order publication |
-| **Status** | Merged |
-| **Depends on** | NIP-01 |
+| **Status** | Draft (optional) |
+| **Depends on** | NIP-01, NIP-33 |
 
 ## Overview
 
@@ -244,18 +244,20 @@ function findInRange(orders, maxPremium) {
 
 ## Relay Considerations
 
-### Recommended Relays
+### Platform-Specific Relays
 
-P2P-focused relays that carry NIP-69 traffic:
+Each P2P platform operates its own relay:
 
 ```javascript
 const p2pRelays = [
-  'wss://relay.mostro.network',
-  'wss://nostr.bilthon.dev',
-  'wss://relay.damus.io',
-  'wss://nos.lol'
+  'wss://relay.mostro.network',     // Mostro
+  'wss://relay.lnp2pbot.com',       // lnp2pBot
+  'wss://nostr.robosats.org',       // RoboSats
+  'wss://relay.peachbitcoin.com'    // Peach Bitcoin
 ];
 ```
+
+Aggregators like p2psats connect to all four to build a unified order book.
 
 ### Event Retention
 
@@ -287,20 +289,28 @@ The `content` field can contain encrypted trade details:
 ### Mostro
 
 - Native Nostr P2P exchange
-- All orders published as kind:38383
+- Uses NIP-59 (GiftWrap) for private messaging
 - `["y", "mostro"]` tag identifies source
+- Relay: `wss://relay.mostro.network`
 
-### Robosats
+### RoboSats
 
 - Tor-based P2P exchange
-- Publishes orders to Nostr
-- `["source", "https://robosats.com"]`
+- Maintains [robosats-nostr-sync](https://github.com/RoboSats/robosats-nostr-sync) scraper
+- Also aggregates HodlHodl and Peach orders
+- Relay: `wss://nostr.robosats.org`
 
-### lnp2pbot
+### lnp2pBot
 
-- Telegram bot for P2P trading
+- Telegram bot for P2P trading (@lnp2pBot)
 - Mirrors orders to Nostr
-- `["name", "lnp2pbot"]`
+- Relay: `wss://relay.lnp2pbot.com`
+
+### Peach Bitcoin
+
+- Mobile P2P app
+- Publishes orders to Nostr
+- Relay: `wss://relay.peachbitcoin.com`
 
 ## Security Considerations
 
