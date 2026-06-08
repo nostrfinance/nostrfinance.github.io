@@ -479,6 +479,167 @@ For important payments, do both:
 }
 ```
 
+## Spending Your On-Chain Zaps
+
+You've received on-chain zaps to your npub-derived P2TR address. Now how do you spend them securely?
+
+### The Security Model
+
+Your nsec controls both your Nostr identity AND your Bitcoin. Exposing it to spend Bitcoin risks your entire identity. Solution: **hardware wallet + PSBT**.
+
+```mermaid
+flowchart LR
+    subgraph watch["Watch-Only (Online)"]
+        sparrow["Sparrow Wallet"]
+        utxos["See UTXOs"]
+        create["Create PSBT"]
+    end
+    
+    subgraph hw["Hardware Wallet (Offline)"]
+        sign["Sign PSBT"]
+    end
+    
+    subgraph broadcast["Broadcast"]
+        tx["Signed Transaction"]
+    end
+    
+    sparrow --> utxos --> create --> sign --> tx
+```
+
+### Watch-Only Wallet Setup
+
+Import your npub-derived key as watch-only (no private key on the computer):
+
+**Sparrow Wallet:**
+1. File → New Wallet
+2. Select "Airgapped Hardware Wallet"
+3. Import your x-only pubkey (from npub)
+4. Sparrow watches `bc1p...` for incoming funds
+
+```javascript
+// Your watch address
+const watchAddress = npubToP2TR(yourNpub);
+// Sparrow monitors this - sees all incoming on-chain zaps
+```
+
+### PSBT Workflow
+
+**PSBT** (Partially Signed Bitcoin Transaction) lets you build transactions on an online machine and sign on an offline device.
+
+```mermaid
+sequenceDiagram
+    participant W as Watch-Only<br/>(Sparrow)
+    participant Q as QR / SD Card
+    participant H as Hardware Wallet
+    participant B as Bitcoin Network
+
+    W->>W: 1. Select UTXOs, build tx
+    W->>W: 2. Export unsigned PSBT
+    W->>Q: 3. Transfer PSBT
+    Q->>H: 4. Scan/load PSBT
+    H->>H: 5. Verify & sign
+    H->>Q: 6. Export signed PSBT
+    Q->>W: 7. Import signed PSBT
+    W->>B: 8. Broadcast
+```
+
+### Hardware Wallet Options
+
+| Device | P2TR Support | Air-Gap Method | Nostr Signing |
+|--------|-------------|----------------|---------------|
+| **Coldcard** | Yes | MicroSD, QR | No |
+| **SeedSigner** | Yes | QR only | No |
+| **Ledger** | Yes | USB | Via app |
+| **Trezor** | Yes | USB | No |
+| **Jade** | Yes | QR, USB | No |
+
+**For maximum security**: Use QR-based air-gap (Coldcard Q, SeedSigner, Jade). Device never connects to computer.
+
+### Step-by-Step: Coldcard + Sparrow
+
+**One-time setup:**
+
+1. Generate seed on Coldcard (or import your nsec-derived seed)
+2. Export xpub via MicroSD
+3. Import xpub into Sparrow as watch-only
+4. Verify address matches your npub-derived P2TR
+
+**Spending:**
+
+1. **Sparrow**: Create transaction, select UTXOs, set destination and fee
+2. **Sparrow**: Save PSBT to MicroSD (or display as QR)
+3. **Coldcard**: Load PSBT, verify outputs, sign
+4. **Coldcard**: Save signed PSBT to MicroSD
+5. **Sparrow**: Load signed PSBT, broadcast
+
+### QR-Based Air-Gap Flow
+
+For devices with cameras (Coldcard Q, SeedSigner, Jade):
+
+```
+┌─────────────┐         ┌─────────────┐
+│   Sparrow   │  QR ->  │  Hardware   │
+│  (online)   │         │  (offline)  │
+│             │  <- QR  │             │
+└─────────────┘         └─────────────┘
+```
+
+No cables, no MicroSD, no USB - just cameras and screens. The air-gap is physically visible.
+
+### Deriving Hardware Wallet from nsec
+
+Your nsec is 32 bytes of entropy - same as a BIP-39 seed. You can:
+
+**Option A: Import nsec as seed**
+```javascript
+// Convert nsec to 24-word mnemonic
+const mnemonic = entropyToMnemonic(nsecBytes, wordlist);
+// Import this mnemonic into hardware wallet
+```
+
+**Option B: Use same derivation path**
+```
+m/86'/0'/0'/0/0  →  P2TR address
+```
+
+Ensure the derived P2TR matches your npub-derived address.
+
+**Option C: Keep separate**
+
+Use hardware wallet's own seed for Bitcoin, keep nsec for Nostr only. Less elegant but simpler backup story.
+
+### Signing Nostr Events with Hardware
+
+Currently limited, but emerging:
+
+| Method | Status | How |
+|--------|--------|-----|
+| **NIP-46** | Working | Remote signer, hardware as backend |
+| **Nostr Signing Device** | Experimental | Dedicated firmware |
+| **USB HID** | Proposed | Sign events via hardware |
+
+For now, most users keep nsec hot for Nostr events (low value) and use hardware only for Bitcoin spending (high value).
+
+### Security Checklist
+
+- [ ] Watch-only wallet on daily computer (no private keys)
+- [ ] Hardware wallet stores seed offline
+- [ ] Verify addresses on hardware screen before signing
+- [ ] Use air-gap (QR/SD) over USB when possible
+- [ ] Test with small amount first
+- [ ] Backup seed phrase on metal (fire/flood proof)
+
+### When Hardware Overkill?
+
+| Amount | Recommendation |
+|--------|----------------|
+| Under 100k sats | Hot wallet fine |
+| 100k - 1M sats | Consider hardware |
+| Over 1M sats | Hardware required |
+| Over 10M sats | Hardware + multisig |
+
+For small on-chain zaps, spending directly with nsec (via a good wallet) is acceptable. Hardware becomes essential as amounts grow.
+
 ## Best Practices
 
 ### For Senders
