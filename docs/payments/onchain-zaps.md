@@ -114,12 +114,21 @@ On-chain zaps create a permanent, public link between your npub and Bitcoin tran
 | **Sender correlation** | Your funding source is visible |
 | **Dust attacks** | Anyone can send tiny amounts |
 
+### Choosing Your Privacy Level
+
+| Use Case | Recommended Approach |
+|----------|---------------------|
+| Public tips (attribution wanted) | Raw npub → P2TR |
+| Moderate privacy | Tweaked keys |
+| High privacy | Silent Payments + NIP-17 |
+| Maximum privacy | Lightning zaps |
+
 ### When On-Chain Makes Sense
 
 - Large tips where Lightning capacity is insufficient
 - Recipients without Lightning setup
 - Long-term savings/accumulation
-- When you don't mind public attribution
+- When you don't mind public attribution (or use tweaks)
 
 ### When to Use Lightning Instead
 
@@ -127,9 +136,78 @@ On-chain zaps create a permanent, public link between your npub and Bitcoin tran
 - Frequent small tips
 - When recipient has LNURL configured
 
+## Simple Tweaks: A Privacy Middle Ground
+
+Between raw npub derivation (fully public) and Silent Payments (complex), there's a practical middle ground: **tweaked keys**.
+
+### The Problem with Raw Derivation
+
+```
+npub1abc... → bc1pabc...
+```
+
+Anyone can compute this mapping. Your npub becomes a transparent window into your Bitcoin holdings.
+
+### Tweaked Key Approach
+
+Instead of deriving P2TR directly from the raw npub, apply a tweak:
+
+```javascript
+import { sha256 } from '@noble/hashes/sha256';
+import { secp256k1 } from '@noble/curves/secp256k1';
+
+function tweakedP2TR(npubHex, tweakData = 'nostr-zap') {
+  // Compute tweak: H(pubkey || domain)
+  const tweak = sha256(
+    Buffer.concat([
+      Buffer.from(npubHex, 'hex'),
+      Buffer.from(tweakData)
+    ])
+  );
+  
+  // Tweaked pubkey: P' = P + tweak*G
+  const pubPoint = secp256k1.ProjectivePoint.fromHex(npubHex);
+  const tweakPoint = secp256k1.ProjectivePoint.BASE.multiply(
+    BigInt('0x' + Buffer.from(tweak).toString('hex'))
+  );
+  const tweakedPub = pubPoint.add(tweakPoint);
+  
+  // Derive P2TR from tweaked key
+  return deriveP2TR(tweakedPub.toHex());
+}
+```
+
+### Privacy Tradeoff Spectrum
+
+| Approach | Privacy | Complexity | Recipient Setup |
+|----------|---------|------------|-----------------|
+| Raw npub → P2TR | None | Trivial | None |
+| **Tweaked key** | Moderate | Low | Know the tweak |
+| Silent Payments | High | Moderate | Wallet support |
+| Fresh key per tx | Maximum | High | Per-tx coordination |
+
+### How Tweaks Help
+
+1. **Address unlinkability**: `bc1p-tweaked` can't be trivially mapped back to `npub1...`
+2. **Still spendable**: Owner knows their nsec + tweak, can derive the spending key
+3. **Deterministic**: Same sender + recipient + tweak = same address (good for recurring)
+4. **No scanning**: Unlike Silent Payments, no blockchain scanning needed
+
+### Sender-Specific Tweaks
+
+For better privacy, use sender-specific tweaks:
+
+```javascript
+// Sender includes their pubkey in the tweak
+const tweak = sha256(senderPubkey + recipientPubkey + 'zap');
+// Now each sender→recipient pair has a unique address
+```
+
+The recipient can try known sender pubkeys to find payments, or senders notify via NIP-17 DM.
+
 ## Silent Payments: Privacy-Enhanced On-Chain
 
-For privacy-conscious on-chain payments, **Silent Payments** (BIP-352) combined with Nostr notifications solve address reuse:
+For maximum privacy, **Silent Payments** (BIP-352) combined with Nostr notifications solve address reuse:
 
 ### How Silent Payments Work
 
